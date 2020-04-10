@@ -7,20 +7,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class NavigationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_navigation);
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
@@ -29,23 +25,23 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.action_search:
-                            Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                            Intent searchIntent = new Intent(NavigationActivity.this, SearchActivity.class);
                             startActivity(searchIntent);
                             return true;
                         case R.id.action_profile:
-                            Intent profileIntent = new Intent(MainActivity.this, ProfileActivity.class);
+                            Intent profileIntent = new Intent(NavigationActivity.this, ProfileActivity.class);
                             startActivity(profileIntent);
                             return true;
                         case R.id.action_navigation:
-                            Intent navigationIntent = new Intent(MainActivity.this, NavigationActivity.class);
+                            Intent navigationIntent = new Intent(NavigationActivity.this, NavigationActivity.class);
                             startActivity(navigationIntent);
                             return true;
                         case R.id.action_add:
-                            Intent addIntent = new Intent(MainActivity.this, AddActivity.class);
+                            Intent addIntent = new Intent(NavigationActivity.this, AddActivity.class);
                             startActivity(addIntent);
                             return true;
                         case R.id.action_settings:
-                            Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                            Intent settingsIntent = new Intent(NavigationActivity.this, SettingsActivity.class);
                             startActivity(settingsIntent);
                             return true;
                         default:
@@ -54,5 +50,4 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             };
-
 }
