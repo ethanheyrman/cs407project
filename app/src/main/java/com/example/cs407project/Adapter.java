@@ -3,7 +3,6 @@ package com.example.cs407project;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Arrays;
 
 public class Adapter extends BaseAdapter {
 
@@ -18,12 +18,19 @@ public class Adapter extends BaseAdapter {
     String[] PPE;
     LayoutInflater layoutInflater;
     String[] editTextEntries;
+    String[] previousEntries;
 
 
-    public Adapter(Context context, String[] ppe) {
+    public Adapter(Context context, String[] ppe, String[] previousEntries) {
         this.context = context;
         this.PPE = ppe;
-        this.editTextEntries = new String[ppe.length];
+        if (previousEntries != null) {
+            this.editTextEntries = previousEntries;
+        } else {
+            this.editTextEntries = new String[ppe.length];
+            Arrays.fill(editTextEntries, "0");
+        }
+        this.previousEntries = previousEntries;
     }
 
     @Override
@@ -36,8 +43,7 @@ public class Adapter extends BaseAdapter {
         return editTextEntries[position];
     }
 
-    public String[] getAllEntries()
-    {
+    public String[] getAllEntries() {
         return editTextEntries;
     }
 
@@ -71,6 +77,10 @@ public class Adapter extends BaseAdapter {
                     editTextEntries[position] = s.toString();
                 }
             });
+
+            if (previousEntries != null) {
+                editText.setHint(previousEntries[position]);
+            }
             /*
             editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
@@ -80,9 +90,7 @@ public class Adapter extends BaseAdapter {
                     }
                 }
             }); */
-
         }
         return convertView;
     }
 }
-

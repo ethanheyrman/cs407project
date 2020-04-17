@@ -6,28 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--
     <Button
         android:id="@+id/button1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/holo_green_light"
-        android:textColor="@android:color/white"
-        android:text="Offer PPE"
         android:onClick="offer"
+        android:text="Offer PPE"
+        android:textColor="@android:color/white"
+        app:layout_constraintHeight_percent=".5"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent=".5" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+            <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/holo_green_dark"
-        android:textColor="@android:color/white"
-        android:text="Request PPE"
         android:onClick="request"
-        app:layout_constraintTop_toBottomOf="@id/button1"
+        android:text="Request PPE"
+        android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent=".5" />
+        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintTop_toBottomOf="@id/button1" />
+
+        -->
+
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/frameLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent=".5"
+        app:layout_constraintTop_toBottomOf="@id/frameLayout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

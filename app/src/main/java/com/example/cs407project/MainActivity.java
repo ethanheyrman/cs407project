@@ -2,36 +2,47 @@ package com.example.cs407project;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
+
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
+
+    SharedPreferences sharedPreferences;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("com.example.cs407project", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("com.example.cs407project", Context.MODE_PRIVATE);
         setContentView(R.layout.activity_main);
-
-        //maybe usefragments for the 2 sections
-        //each button can be in its own view, and these views are programmatically filled with segments.
+        gson = new Gson();
     }
 
-    public void request(View view)
-    {
-        Intent intent = new Intent(this,SendPage.class);
-        intent.putExtra("type", "I want:");
-        startActivity(intent);
-    }
+    public void onResume() {
+        super.onResume();
+        String isOffer = sharedPreferences.getString("offer", "none");
+        String isRequest = sharedPreferences.getString("request", "none");
 
-    public void offer(View view)
-    {
-        Intent intent = new Intent(this,SendPage.class);
-        intent.putExtra("type", "I have:");
-        startActivity(intent);
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        if (!isOffer.equals("none")) {
+            String[] elems = gson.fromJson(isOffer, String[].class);
+            fragmentTransaction.replace(R.id.frameLayout, new ListSentFragment(0, elems, sharedPreferences));
+        } else {
+            fragmentTransaction.replace(R.id.frameLayout, new ButtonFragment(0));
+        }
+        if (!isRequest.equals("none")) {
+            String[] elems = gson.fromJson(isRequest, String[].class);
+            fragmentTransaction.replace(R.id.frameLayout2, new ListSentFragment(1, elems, sharedPreferences));
+        } else {
+            fragmentTransaction.replace(R.id.frameLayout2, new ButtonFragment(1));
+        }
+        fragmentTransaction.commit();
     }
 }

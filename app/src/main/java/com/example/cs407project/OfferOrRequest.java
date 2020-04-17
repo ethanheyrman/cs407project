@@ -1,20 +1,25 @@
 package com.example.cs407project;
 
-public class OfferOrRequest {
-    public String which;
-    public int clothMask;
-    public int surgicalMask;
-    public int disposableRespirator;
-    public int halfMask;
-    public int fullMask;
-    public int filters;
-    public int goggles;
-    public int surgicalGown;
-    public int faceShield;
+import com.google.gson.Gson;
 
-    public OfferOrRequest(String which, int clothMask, int surgicalMask, int disposableRespirator, int halfMask, int fullMask,
-                          int filters, int goggles, int surgicalGown, int faceShield)
-    {
+public class OfferOrRequest {
+   // public int which;
+    public String[] entries;
+
+    /*
+    public String clothMask;
+    public String surgicalMask;
+    public String disposableRespirator;
+    public String halfMask;
+    public String fullMask;
+    public String filters;
+    public String goggles;
+    public String faceShield;
+    public String surgicalGown;
+
+
+    public OfferOrRequest(int which, String clothMask, String surgicalMask, String disposableRespirator, String halfMask, String fullMask,
+                          String filters, String goggles, String faceShield, String surgicalGown) {
         this.which = which;
         this.clothMask = clothMask;
         this.surgicalMask = surgicalMask;
@@ -23,7 +28,27 @@ public class OfferOrRequest {
         this.fullMask = fullMask;
         this.filters = filters;
         this.goggles = goggles;
-        this.surgicalGown = surgicalGown;
         this.faceShield = faceShield;
+        this.surgicalGown = surgicalGown;
+
+    }
+
+
+     */
+    public OfferOrRequest(String[] entries) {
+   //     this.which = type;
+        this.entries = entries;
+        /*
+        this.clothMask = entries[0];
+        this.surgicalMask = entries[1];
+        this.disposableRespirator = entries[2];
+        this.halfMask = entries[3];
+        this.fullMask = entries[4];
+        this.filters = entries[5];
+        this.goggles = entries[6];
+        this.faceShield = entries[7];
+        this.surgicalGown = entries[8];
+
+         */
     }
 }
