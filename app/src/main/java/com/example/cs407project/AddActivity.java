@@ -1,0 +1,53 @@
+package com.example.cs407project;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+public class AddActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_add);
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.action_search:
+                            Intent searchIntent = new Intent(AddActivity.this, SearchActivity.class);
+                            startActivity(searchIntent);
+                            return true;
+                        case R.id.action_profile:
+                            Intent profileIntent = new Intent(AddActivity.this, ProfileActivity.class);
+                            startActivity(profileIntent);
+                            return true;
+                        case R.id.action_navigation:
+                            Intent navigationIntent = new Intent(AddActivity.this, NavigationActivity.class);
+                            startActivity(navigationIntent);
+                            return true;
+                        case R.id.action_add:
+                            Intent addIntent = new Intent(AddActivity.this, AddActivity.class);
+                            startActivity(addIntent);
+                            return true;
+                        case R.id.action_settings:
+                            Intent settingsIntent = new Intent(AddActivity.this, SettingsActivity.class);
+                            startActivity(settingsIntent);
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
+            };
+}
