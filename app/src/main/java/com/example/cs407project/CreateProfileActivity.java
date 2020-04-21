@@ -3,14 +3,11 @@ package com.example.cs407project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -20,7 +17,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class AuthenticationActivity extends AppCompatActivity {
+public class CreateProfileActivity extends AppCompatActivity {
     private static final String TAG = "Authentication";
 
     private EditText emailField;
@@ -62,7 +59,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(AuthenticationActivity.this, "Authentication failed.",
+                            Toast.makeText(CreateProfileActivity.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
 //                            updateUI(null);
                         }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cs407project">
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- this line adds the required permission request -->
 
     <application
         android:allowBackup="true"
@@ -18,6 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity"/>
+        <activity android:name=".UserRegistrationActivity"
+            android:theme="@style/AppTheme.TransparentTheme" />
     </application>
 
 </manifest>
