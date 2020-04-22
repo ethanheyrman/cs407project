@@ -20,20 +20,14 @@ public class SelectionActivity extends AppCompatActivity {
         mSubmitButton = findViewById(R.id.item_submit);
         mCancelButton = findViewById(R.id.item_cancel);
 
-        mSubmitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent submitIntent = new Intent(SelectionActivity.this, HomeActivity.class);
-                startActivity(submitIntent);
-            }
+        mSubmitButton.setOnClickListener(v -> {
+            Intent submitIntent = new Intent(SelectionActivity.this, HomeActivity.class);
+            startActivity(submitIntent);
         });
 
-        mCancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent cancelIntent = new Intent(SelectionActivity.this, SelectionActivity.class);
-                startActivity(cancelIntent);
-            }
+        mCancelButton.setOnClickListener(v -> {
+            Intent cancelIntent = new Intent(SelectionActivity.this, SelectionActivity.class);
+            startActivity(cancelIntent);
         });
 
     }

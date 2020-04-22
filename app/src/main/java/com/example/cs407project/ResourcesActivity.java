@@ -9,12 +9,13 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class AddActivity extends AppCompatActivity {
+public class ResourcesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add);
+        setContentView(R.layout.activity_resources);
+
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
@@ -24,24 +25,24 @@ public class AddActivity extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
-                        case R.id.action_search:
-                            Intent searchIntent = new Intent(AddActivity.this, SearchActivity.class);
+                        case R.id.action_resources:
+                            Intent searchIntent = new Intent(ResourcesActivity.this, ResourcesActivity.class);
                             startActivity(searchIntent);
                             return true;
                         case R.id.action_profile:
-                            Intent profileIntent = new Intent(AddActivity.this, ProfileActivity.class);
+                            Intent profileIntent = new Intent(ResourcesActivity.this, ProfileActivity.class);
                             startActivity(profileIntent);
                             return true;
-                        case R.id.action_navigation:
-                            Intent navigationIntent = new Intent(AddActivity.this, NavigationActivity.class);
+                        case R.id.action_home:
+                            Intent navigationIntent = new Intent(ResourcesActivity.this, HomeActivity.class);
                             startActivity(navigationIntent);
                             return true;
                         case R.id.action_add:
-                            Intent addIntent = new Intent(AddActivity.this, AddActivity.class);
+                            Intent addIntent = new Intent(ResourcesActivity.this, SelectionActivity.class);
                             startActivity(addIntent);
                             return true;
                         case R.id.action_settings:
-                            Intent settingsIntent = new Intent(AddActivity.this, SettingsActivity.class);
+                            Intent settingsIntent = new Intent(ResourcesActivity.this, SettingsActivity.class);
                             startActivity(settingsIntent);
                             return true;
                         default:

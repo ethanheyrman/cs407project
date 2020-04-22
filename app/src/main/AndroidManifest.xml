@@ -14,10 +14,8 @@
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".SelectionActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".AddActivity" />
-        <activity android:name=".NavigationActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".SearchActivity" />
+        <activity android:name=".ResourcesActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

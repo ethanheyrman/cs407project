@@ -25,20 +25,20 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
-                        case R.id.action_search:
-                            Intent searchIntent = new Intent(ProfileActivity.this, SearchActivity.class);
+                        case R.id.action_resources:
+                            Intent searchIntent = new Intent(ProfileActivity.this, ResourcesActivity.class);
                             startActivity(searchIntent);
                             return true;
                         case R.id.action_profile:
                             Intent profileIntent = new Intent(ProfileActivity.this, ProfileActivity.class);
                             startActivity(profileIntent);
                             return true;
-                        case R.id.action_navigation:
-                            Intent navigationIntent = new Intent(ProfileActivity.this, NavigationActivity.class);
+                        case R.id.action_home:
+                            Intent navigationIntent = new Intent(ProfileActivity.this, HomeActivity.class);
                             startActivity(navigationIntent);
                             return true;
                         case R.id.action_add:
-                            Intent addIntent = new Intent(ProfileActivity.this, AddActivity.class);
+                            Intent addIntent = new Intent(ProfileActivity.this, SelectionActivity.class);
                             startActivity(addIntent);
                             return true;
                         case R.id.action_settings:

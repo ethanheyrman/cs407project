@@ -31,25 +31,19 @@ public class MainActivity extends AppCompatActivity {
         mRegisterButton = findViewById(R.id.register_button);
 
         mLoginButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        usernameInput = mUsernameField.getText().toString();
-                        passwordInput = mPasswordField.getText().toString();
-                        Intent loginIntent = new Intent(MainActivity.this, SelectionActivity.class);
-                        loginIntent.putExtra("username", usernameInput);
-                        loginIntent.putExtra("password", passwordInput);
-                        startActivity(loginIntent);
-                    }
+                v -> {
+                    usernameInput = mUsernameField.getText().toString();
+                    passwordInput = mPasswordField.getText().toString();
+                    Intent loginIntent = new Intent(MainActivity.this, HomeActivity.class);
+                    loginIntent.putExtra("username", usernameInput);
+                    loginIntent.putExtra("password", passwordInput);
+                    startActivity(loginIntent);
                 }
         );
         mRegisterButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
-                        startActivity(registerIntent);
-                    }
+                v -> {
+                    Intent registerIntent = new Intent(MainActivity.this, RegisterActivity.class);
+                    startActivity(registerIntent);
                 }
         );
     }
