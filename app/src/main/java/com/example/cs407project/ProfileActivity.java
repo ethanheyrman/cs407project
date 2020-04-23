@@ -5,11 +5,25 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.ScrollView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
+    private TextInputEditText firstName;
+    private TextInputEditText lastName;
+    private TextInputEditText occupation;
+    private EditText age;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +32,18 @@ public class ProfileActivity extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        Log.i("TAG", String.valueOf(currentUser.getEmail()));
+//        firstName = findViewById(R.id.firstName);
+//        firstName.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                firstName.setText(currentUser.getEmail());
+//            }
+//        });
+
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =

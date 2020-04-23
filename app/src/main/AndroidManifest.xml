@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cs407project">
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- this line adds the required permission request -->
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -16,20 +17,24 @@
         <activity android:name=".SettingsActivity" />
         <activity android:name=".AddActivity" />
         <activity android:name=".NavigationActivity" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfileActivity"
+            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".HomeActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".HomeActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+        />
+        <activity android:name=".UserRegistrationActivity"
+            android:theme="@style/AppTheme.TransparentTheme" />
+        <activity android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBo79_ACGvExVX-Xr5bpxDoI8gFxLunVNw" />
     </application>
-
 </manifest>

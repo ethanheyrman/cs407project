@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "453766771193",
+    "firebase_url": "https://ppe-share.firebaseio.com",
+    "project_id": "ppe-share",
+    "storage_bucket": "ppe-share.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:453766771193:android:bb97dd7b1bc6d2e85dcd28",
+        "android_client_info": {
+          "package_name": "com.example.cs407project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "453766771193-m5aqs12advjgaa6ov5kcdmqpponp1005.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtIW_xDmuLmRQeQdROzchmZyvSkJLG6r8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "453766771193-m5aqs12advjgaa6ov5kcdmqpponp1005.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
