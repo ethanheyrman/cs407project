@@ -19,11 +19,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private TextInputEditText firstName;
-    private TextInputEditText lastName;
-    private TextInputEditText occupation;
-    private EditText age;
-    private ScrollView scrollView;
+    public TextInputEditText firstName;
+    public TextInputEditText lastName;
+    public TextInputEditText occupation;
+    public EditText age;
+    public ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,9 @@ public class ProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         Log.i("TAG", String.valueOf(currentUser.getEmail()));
-//        firstName = findViewById(R.id.firstName);
+
+        firstName = findViewById(R.id.first_name_container).findViewById(R.id.first_name);
+        firstName.setText(currentUser.getEmail());
 //        firstName.post(new Runnable() {
 //            @Override
 //            public void run() {

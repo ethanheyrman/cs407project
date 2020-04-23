@@ -12,7 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginBottom="29dp"
         android:background="@color/colorPrimary"
         app:itemIconTint="@android:color/white"
         app:itemTextColor="@android:color/white"
@@ -25,65 +24,40 @@
 
     <ImageView
         android:id="@+id/profile_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/img"
-        app:layout_constraintBottom_toTopOf="@+id/firstName"
+        app:layout_constraintBottom_toTopOf="@+id/last_name_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/firstName"
+        android:id="@+id/first_name_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
-        app:boxBackgroundColor="#FFFFFF"
-        app:helperText="First name"
-        app:helperTextEnabled="true"
-        app:helperTextTextColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/age"
-        app:layout_constraintEnd_toStartOf="@+id/lastName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textColorHint="#000000" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/lastName"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:textColor="#000000"
         android:textColorHint="#000000"
+        app:boxStrokeColor="@color/colorPrimary"
         app:boxBackgroundColor="#FFFFFF"
-        app:helperText="Last name"
+        app:helperText="First name"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/firstName"
+        app:layout_constraintEnd_toStartOf="@+id/last_name_container"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profile_image">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#000000"
@@ -92,33 +66,59 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/age"
+        android:id="@+id/last_name_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="50dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        app:boxStrokeColor="@color/colorPrimary"
+        app:boxBackgroundColor="#FFFFFF"
+        app:helperText="Last name"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/age_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/first_name_container"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textColorHint="#000000" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/occupation_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:textColor="#000000"
         android:textColorHint="#000000"
+        app:boxStrokeColor="@color/colorPrimary"
         app:boxBackgroundColor="#FFFFFF"
-        app:helperText="Age"
+        app:helperText="Occupation"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/occupation"
-        app:layout_constraintTop_toBottomOf="@+id/firstName">
+        app:layout_constraintStart_toEndOf="@+id/age_container">
 
-        <EditText
-            android:id="@+id/ageInputEditText"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/occupation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
             android:textColor="#000000"
             android:textColorHint="#000000" />
-
     </com.google.android.material.textfield.TextInputLayout>
 
     <ScrollView
@@ -128,6 +128,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
@@ -137,7 +138,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/age">
+        app:layout_constraintTop_toBottomOf="@+id/age_container">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -146,9 +147,9 @@
     </ScrollView>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/occupation"
+        android:id="@+id/age_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="0dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
@@ -156,20 +157,25 @@
         android:layout_marginRight="20dp"
         android:textColor="#000000"
         android:textColorHint="#000000"
+        app:boxStrokeColor="@color/colorPrimary"
         app:boxBackgroundColor="#FFFFFF"
-        app:helperText="Occupation"
+        app:helperText="Age"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#000000"
-        app:layout_constraintEnd_toStartOf="@+id/age"
+        app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+        app:layout_constraintEnd_toStartOf="@+id/occupation_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/age">
+        app:layout_constraintTop_toBottomOf="@+id/last_name_container">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textInputEditText"
+        <EditText
+            android:id="@+id/age"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number"
             android:textColor="#000000"
             android:textColorHint="#000000" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
