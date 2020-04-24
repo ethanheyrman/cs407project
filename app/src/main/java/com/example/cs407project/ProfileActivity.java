@@ -41,8 +41,8 @@ public class ProfileActivity extends AppCompatActivity {
                             Intent addIntent = new Intent(ProfileActivity.this, SelectionActivity.class);
                             startActivity(addIntent);
                             return true;
-                        case R.id.action_settings:
-                            Intent settingsIntent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                        case R.id.action_search:
+                            Intent settingsIntent = new Intent(ProfileActivity.this, SearchActivity.class);
                             startActivity(settingsIntent);
                             return true;
                         default:

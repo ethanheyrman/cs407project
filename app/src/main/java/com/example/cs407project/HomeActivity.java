@@ -51,8 +51,8 @@ public class HomeActivity extends AppCompatActivity {
             item -> {
                 switch (item.getItemId()) {
                     case R.id.action_resources:
-                        Intent searchIntent = new Intent(HomeActivity.this, ResourcesActivity.class);
-                        startActivity(searchIntent);
+                        Intent resourcesIntent = new Intent(HomeActivity.this, ResourcesActivity.class);
+                        startActivity(resourcesIntent);
                         return true;
                     case R.id.action_profile:
                         Intent profileIntent = new Intent(HomeActivity.this, ProfileActivity.class);
@@ -66,8 +66,8 @@ public class HomeActivity extends AppCompatActivity {
                         Intent addIntent = new Intent(HomeActivity.this, SelectionActivity.class);
                         startActivity(addIntent);
                         return true;
-                    case R.id.action_settings:
-                        Intent settingsIntent = new Intent(HomeActivity.this, SettingsActivity.class);
+                    case R.id.action_search:
+                        Intent settingsIntent = new Intent(HomeActivity.this, SearchActivity.class);
                         startActivity(settingsIntent);
                         return true;
                     default:

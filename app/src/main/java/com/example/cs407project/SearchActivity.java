@@ -9,12 +9,12 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_search);
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
@@ -25,23 +25,23 @@ public class SettingsActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.action_resources:
-                            Intent searchIntent = new Intent(SettingsActivity.this, ResourcesActivity.class);
+                            Intent searchIntent = new Intent(SearchActivity.this, ResourcesActivity.class);
                             startActivity(searchIntent);
                             return true;
                         case R.id.action_profile:
-                            Intent profileIntent = new Intent(SettingsActivity.this, ProfileActivity.class);
+                            Intent profileIntent = new Intent(SearchActivity.this, ProfileActivity.class);
                             startActivity(profileIntent);
                             return true;
                         case R.id.action_home:
-                            Intent navigationIntent = new Intent(SettingsActivity.this, HomeActivity.class);
+                            Intent navigationIntent = new Intent(SearchActivity.this, HomeActivity.class);
                             startActivity(navigationIntent);
                             return true;
                         case R.id.action_add:
-                            Intent addIntent = new Intent(SettingsActivity.this, SelectionActivity.class);
+                            Intent addIntent = new Intent(SearchActivity.this, SelectionActivity.class);
                             startActivity(addIntent);
                             return true;
-                        case R.id.action_settings:
-                            Intent settingsIntent = new Intent(SettingsActivity.this, SettingsActivity.class);
+                        case R.id.action_search:
+                            Intent settingsIntent = new Intent(SearchActivity.this, SearchActivity.class);
                             startActivity(settingsIntent);
                             return true;
                         default:
