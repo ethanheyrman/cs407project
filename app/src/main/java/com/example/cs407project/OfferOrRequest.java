@@ -5,6 +5,8 @@ import com.google.gson.Gson;
 public class OfferOrRequest {
    // public int which;
     public String[] entries;
+    public String ltd;
+    public String longt;
 
     /*
     public String clothMask;
@@ -35,9 +37,11 @@ public class OfferOrRequest {
 
 
      */
-    public OfferOrRequest(String[] entries) {
+    public OfferOrRequest(String[] entries, String ltd, String longt) {
    //     this.which = type;
         this.entries = entries;
+        this.ltd = ltd;
+        this.longt= longt;
         /*
         this.clothMask = entries[0];
         this.surgicalMask = entries[1];
