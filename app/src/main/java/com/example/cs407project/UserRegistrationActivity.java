@@ -135,7 +135,7 @@ public class UserRegistrationActivity extends AppCompatActivity {
 //                                mDatabase.child("users").child(userId).setValue(user);
 //                            }
 
-                            navigateToHome(user);
+                            navigateToProfileCreation(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -150,9 +150,9 @@ public class UserRegistrationActivity extends AppCompatActivity {
                 });
     }
 
-    public void navigateToHome(FirebaseUser user) {
+    public void navigateToProfileCreation(FirebaseUser user) {
         Intent intent = new Intent(this,
-                com.example.cs407project.HomeActivity.class);
+                com.example.cs407project.UserProfileCreationActivity.class);
         intent.putExtra("user", user);
         startActivity(intent);
     }
