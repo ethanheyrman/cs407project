@@ -29,48 +29,52 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
         android:visibility="invisible"
         app:boxBackgroundColor="#FFFFFF"
+        app:boxStrokeColor="#4E00E9"
+        app:boxStrokeWidth="2dp"
         app:helperText="@string/org_name"
         app:helperTextEnabled="true"
+        app:helperTextTextColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image">
+        app:layout_constraintTop_toBottomOf="@id/occupation_container">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/organization_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/first_name_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
         app:boxBackgroundColor="#FFFFFF"
+        app:boxStrokeColor="#4E00E9"
+        app:boxStrokeWidth="2dp"
+        app:helperText="@string/first_name"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#000000"
         app:layout_constraintEnd_toStartOf="@+id/last_name_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image"
-        app:helperTextEnabled="true"
-        app:helperText="@string/first_name">
+        app:layout_constraintTop_toBottomOf="@+id/profile_image">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/first_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -80,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:textColor="#000000"
@@ -91,6 +95,7 @@
         app:boxStrokeWidth="2dp"
         app:helperText="@string/last_name"
         app:helperTextEnabled="true"
+        app:helperTextTextColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/first_name_container"
         app:layout_constraintTop_toBottomOf="@+id/profile_image">
@@ -98,56 +103,65 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/last_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/occupation_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         app:boxBackgroundColor="#FFFFFF"
+        app:boxStrokeColor="#4E00E9"
+        app:boxStrokeWidth="2dp"
+        app:helperText="@string/occupation"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/age_container"
-        app:layout_constraintTop_toBottomOf="@+id/last_name_container"
-        app:helperTextEnabled="true"
-        app:helperText="@string/occupation" >
+        app:layout_constraintTop_toBottomOf="@+id/last_name_container">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/occupation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/age_container"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:ems="10"
         android:inputType="number"
-        android:textColor="#000000"
-        android:textColorHint="#000000"
         app:boxBackgroundColor="#FFFFFF"
+        app:boxStrokeColor="#4E00E9"
+        app:boxStrokeWidth="2dp"
+        app:helperText="@string/age"
+        app:helperTextEnabled="true"
+        app:helperTextTextColor="#000000"
         app:layout_constraintEnd_toStartOf="@+id/occupation_container"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/first_name_container"
-        app:helperTextEnabled="true"
-        app:helperText="@string/age">
+        app:layout_constraintTop_toBottomOf="@+id/first_name_container">
+
         <EditText
             android:id="@+id/age"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -179,14 +193,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_bar" />
 
-    <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="370dp"
-        android:layout_height="380dp"
+    <ListView
+        android:id="@+id/post_list"
+        android:layout_width="0dp"
+        android:layout_height="245dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/border"
@@ -194,12 +208,6 @@
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/occupation_container">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/organization_name_container" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
