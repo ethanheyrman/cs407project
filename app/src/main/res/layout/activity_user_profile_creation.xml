@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
+    tools:context=".UserProfileCreationActivity">
+
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="155dp"
+        android:layout_marginLeft="155dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginRight="155dp"
+        android:background="@drawable/img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/desc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:lines="2"
+        android:text="Please, describe yourself a little\n so others know who you are."
+        app:layout_constraintBottom_toTopOf="@+id/last_name_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+
+    <TextView
+        android:id="@+id/repr_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="Do you represent an organization?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/age_container" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/last_name_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:visibility="visible"
+        app:boxBackgroundColor="#FFFFFF"
+        app:boxStrokeColor="#4E00E9"
+        app:boxStrokeWidth="2dp"
+        app:helperText="@string/last_name"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/first_name_container"
+        app:layout_constraintTop_toBottomOf="@+id/desc_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/occupation_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxBackgroundColor="#FFFFFF"
+        app:helperText="@string/occupation"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/age_container"
+        app:layout_constraintTop_toBottomOf="@+id/last_name_container">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/occupation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/first_name_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxBackgroundColor="#FFFFFF"
+        app:helperText="@string/first_name"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toStartOf="@+id/last_name_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/desc_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/age_container"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:ems="10"
+        android:inputType="number"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxBackgroundColor="#FFFFFF"
+        app:helperText="@string/age"
+        app:helperTextEnabled="true"
+        app:layout_constraintEnd_toStartOf="@+id/occupation_container"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_name_container">
+
+        <EditText
+            android:id="@+id/age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/complete_profile_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:onClick="onCreateAccountClick"
+        android:text="Complete Profile"
+        app:backgroundTint="#6200EE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/organization_name_container" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/org_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:checked="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/occupation_container" />
+
+    <TextView
+        android:id="@+id/org_confirmation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="right"
+        android:text="(You cannot change\n this later)"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/org_switch" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/organization_name_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="#000000"
+        android:textColorHint="#000000"
+        android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:visibility="invisible"
+        app:boxBackgroundColor="#FFFFFF"
+        app:helperText="@string/org_name"
+        app:helperTextEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/complete_profile_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/org_confirmation">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/organization_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
