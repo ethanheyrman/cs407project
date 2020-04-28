@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
-
-
     }
 
     private void signIn(String email, String password) {
@@ -77,6 +75,17 @@ public class MainActivity extends AppCompatActivity {
     public void onLoginClick(View view) {
         String email = emailField.getText().toString();
         String password = passwordField.getText().toString();
+
+        if (email.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Enter your email.",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (password.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Enter your password.",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
         signIn(email, password);
     }
 
@@ -95,7 +104,4 @@ public class MainActivity extends AppCompatActivity {
                 com.example.cs407project.UserRegistrationActivity.class);
         startActivity(intent);
     }
-
-
-
 }
