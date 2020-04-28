@@ -67,7 +67,7 @@ public class SendPage extends AppCompatActivity {
     }
 
     public void Cancel(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
 
@@ -78,13 +78,13 @@ public class SendPage extends AppCompatActivity {
         sharedPreferences.edit().putString(formType, json).commit();
         if(formType.equals("request"))
         {
-            sharedPreferences.edit().putString("Rlong",Double.toString(currLoc.getLongitude())).commit();
-            sharedPreferences.edit().putString("RLat",Double.toString(currLoc.getLatitude())).commit();
+            sharedPreferences.edit().putString("Rlong",Double.toString(currLoc.getLongitude())).apply();
+            sharedPreferences.edit().putString("RLat",Double.toString(currLoc.getLatitude())).apply();
         }
         else
         {
-            sharedPreferences.edit().putString("Olong",Double.toString(currLoc.getLongitude())).commit();
-            sharedPreferences.edit().putString("OLat",Double.toString(currLoc.getLatitude())).commit();
+            sharedPreferences.edit().putString("Olong",Double.toString(currLoc.getLongitude())).apply();
+            sharedPreferences.edit().putString("OLat",Double.toString(currLoc.getLatitude())).apply();
         }
         handleLocation();
         Cancel(view);
