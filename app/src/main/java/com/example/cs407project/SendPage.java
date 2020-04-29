@@ -108,13 +108,12 @@ public class SendPage extends AppCompatActivity {
 
     public void getLocation() {
         LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(500);
-        locationRequest.setFastestInterval(500);
+        locationRequest.setInterval(1);
+        locationRequest.setFastestInterval(1);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         LocationCallback locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
-                //Not really sure how to handle if location is null
                 if (locationResult == null) {
                     return;
                 } else {
