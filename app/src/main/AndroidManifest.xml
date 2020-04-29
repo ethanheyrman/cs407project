@@ -22,5 +22,4 @@
             android:name=".SendPage"
             android:windowSoftInputMode="adjustPan|stateHidden" />
     </application>
-
 </manifest>

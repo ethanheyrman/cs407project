@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
@@ -15,9 +16,20 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+//import com.firebase.geofire.LocationCallback;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
+
+import java.util.Arrays;
 
 public class SendPage extends AppCompatActivity {
 
@@ -30,8 +42,12 @@ public class SendPage extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12;
     Location currLoc;
+    GeoFire geoFire;
+    DatabaseReference postsBase;
+    String username;
 
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseApp.initializeApp(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.send_page);
 
@@ -46,7 +62,69 @@ public class SendPage extends AppCompatActivity {
             type.setText("I have: ");
         }
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        sharedPreferences.edit().putString("username", "someguy").apply();
+        username = sharedPreferences.getString("username", "");
+
+        postsBase = FirebaseDatabase.getInstance().getReference("posts");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geofire" + formType + "s");
+        geoFire = new GeoFire(ref);
         handleLocation();
+
+
+        /*
+        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(37.7832, -122.4056), 0.6);
+        Log.i("asdfa","asdfasdf");
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+                Log.i("asdfa",key);
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+                System.out.println(String.format("Key %s is no longer in the search area", key));
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                System.out.println(String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+                System.out.println("All initial data has been loaded and events have been fired!");
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+                System.err.println("There was an error with this query: " + error);
+            }
+        });
+
+         */
+
+    }
+
+    public void getLocation() {
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(500);
+        locationRequest.setFastestInterval(500);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationCallback locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                //Not really sure how to handle if location is null
+                if (locationResult == null) {
+                    return;
+                } else {
+                    mFusedLocationProviderClient.removeLocationUpdates(this);
+                }
+                for (Location location : locationResult.getLocations()) {
+                }
+            }
+        };
+        mFusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
     public void onResume() {
@@ -61,7 +139,6 @@ public class SendPage extends AppCompatActivity {
         } else {
             adapter = new Adapter(this, PPETypes, null);
         }
-
         gridView = findViewById(R.id.itemList);
         gridView.setAdapter(adapter);
     }
@@ -76,17 +153,16 @@ public class SendPage extends AppCompatActivity {
         String[] entries = adapter.getAllEntries();
         String json = gson.toJson(entries);
         sharedPreferences.edit().putString(formType, json).commit();
-        if(formType.equals("request"))
-        {
-            sharedPreferences.edit().putString("Rlong",Double.toString(currLoc.getLongitude())).commit();
-            sharedPreferences.edit().putString("RLat",Double.toString(currLoc.getLatitude())).commit();
-        }
-        else
-        {
-            sharedPreferences.edit().putString("Olong",Double.toString(currLoc.getLongitude())).commit();
-            sharedPreferences.edit().putString("OLat",Double.toString(currLoc.getLatitude())).commit();
+        if (formType.equals("request")) {
+            sharedPreferences.edit().putString("Rlong", Double.toString(currLoc.getLongitude())).commit();
+            sharedPreferences.edit().putString("RLat", Double.toString(currLoc.getLatitude())).commit();
+        } else {
+            sharedPreferences.edit().putString("Olong", Double.toString(currLoc.getLongitude())).commit();
+            sharedPreferences.edit().putString("OLat", Double.toString(currLoc.getLatitude())).commit();
         }
         handleLocation();
+        geoFire.setLocation(username + formType, new GeoLocation(currLoc.getLatitude(), currLoc.getLongitude()));
+        postsBase.child(username + formType).child("info").setValue(Arrays.asList(entries));
         Cancel(view);
     }
 
@@ -103,6 +179,9 @@ public class SendPage extends AppCompatActivity {
                 Location mLastKnownLocation = task.getResult();
                 if (task.isSuccessful() && mLastKnownLocation != null) {
                     currLoc = mLastKnownLocation;
+                } else if (mLastKnownLocation == null) {
+                    getLocation();
+                    handleLocation();
                 }
             });
         }
