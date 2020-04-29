@@ -57,34 +57,30 @@ public class AddActivity extends AppCompatActivity {
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.action_search:
-                            Intent searchIntent = new Intent(AddActivity.this, SearchActivity.class);
-                            startActivity(searchIntent);
-                            return true;
-                        case R.id.action_profile:
-                            Intent profileIntent = new Intent(AddActivity.this, ProfileActivity.class);
-                            startActivity(profileIntent);
-                            return true;
-                        case R.id.action_home:
-                            Intent navigationIntent = new Intent(AddActivity.this, HomeActivity.class);
-                            startActivity(navigationIntent);
-                            return true;
-                        case R.id.action_add:
-                            Intent addIntent = new Intent(AddActivity.this, AddActivity.class);
-                            startActivity(addIntent);
-                            return true;
-                        case R.id.action_resources:
-                            Intent settingsIntent = new Intent(AddActivity.this, ResourcesActivity.class);
-                            startActivity(settingsIntent);
-                            return true;
-                        default:
-                            return false;
-                    }
+            item -> {
+                switch (item.getItemId()) {
+                    case R.id.action_search:
+                        Intent searchIntent = new Intent(AddActivity.this, SearchActivity.class);
+                        startActivity(searchIntent);
+                        return true;
+                    case R.id.action_profile:
+                        Intent profileIntent = new Intent(AddActivity.this, ProfileActivity.class);
+                        startActivity(profileIntent);
+                        return true;
+                    case R.id.action_home:
+                        Intent navigationIntent = new Intent(AddActivity.this, HomeActivity.class);
+                        startActivity(navigationIntent);
+                        return true;
+                    case R.id.action_add:
+                        Intent addIntent = new Intent(AddActivity.this, AddActivity.class);
+                        startActivity(addIntent);
+                        return true;
+                    case R.id.action_resources:
+                        Intent settingsIntent = new Intent(AddActivity.this, ResourcesActivity.class);
+                        startActivity(settingsIntent);
+                        return true;
+                    default:
+                        return false;
                 }
-
             };
 }

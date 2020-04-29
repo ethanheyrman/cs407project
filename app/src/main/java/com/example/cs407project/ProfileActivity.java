@@ -70,7 +70,7 @@ public class ProfileActivity extends AppCompatActivity {
         // Persistent Layout References
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        
+
         displayPosts = new ArrayList<String>();
         userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -126,9 +126,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
-        new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            item -> {
             switch (item.getItemId()) {
                 case R.id.action_search:
                     Intent searchIntent = new Intent(ProfileActivity.this, SearchActivity.class);
@@ -153,7 +151,5 @@ public class ProfileActivity extends AppCompatActivity {
                 default:
                     return false;
             }
-            }
-
-        };
+            };
 }

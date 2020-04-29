@@ -37,7 +37,7 @@ public class SearchActivity extends AppCompatActivity {
                             startActivity(navigationIntent);
                             return true;
                         case R.id.action_add:
-                            Intent addIntent = new Intent(SearchActivity.this, SelectionActivity.class);
+                            Intent addIntent = new Intent(SearchActivity.this, AddActivity.class);
                             startActivity(addIntent);
                             return true;
                         case R.id.action_search:

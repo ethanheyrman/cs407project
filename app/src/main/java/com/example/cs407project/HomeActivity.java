@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(navigationIntent);
                         return true;
                     case R.id.action_add:
-                        Intent addIntent = new Intent(HomeActivity.this, SelectionActivity.class);
+                        Intent addIntent = new Intent(HomeActivity.this, AddActivity.class);
                         startActivity(addIntent);
                         return true;
                     case R.id.action_search:

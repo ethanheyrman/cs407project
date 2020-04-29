@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         emailField = findViewById(R.id.email_field);
         passwordField = findViewById(R.id.password_field);
     }
+
     @Override
     public void onStart() {
         super.onStart();
