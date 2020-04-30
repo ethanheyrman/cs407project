@@ -3,6 +3,8 @@
     package="com.example.cs407project">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -11,12 +13,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".SelectionActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".ResourcesActivity"/>
+        <activity android:name=".ResourcesActivity" />
         <activity android:name=".HomeActivity" />
+        <activity android:name=".AddActivity" />
+        <activity android:name=".SearchActivity" />
+
+        <activity android:name=".ProfileActivity" />
+
+        <activity
+            android:name=".UserRegistrationActivity"
+            android:theme="@style/AppTheme.TransparentTheme" />
+
+        <activity
+            android:name=".UserProfileCreationActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,10 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SendPage"
+            android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBo79_ACGvExVX-Xr5bpxDoI8gFxLunVNw" />
     </application>
-
 </manifest>

@@ -50,7 +50,7 @@ public class ResourcesActivity extends AppCompatActivity {
                         startActivity(navigationIntent);
                         return true;
                     case R.id.action_add:
-                        Intent addIntent = new Intent(ResourcesActivity.this, SelectionActivity.class);
+                        Intent addIntent = new Intent(ResourcesActivity.this, AddActivity.class);
                         startActivity(addIntent);
                         return true;
                     case R.id.action_search:

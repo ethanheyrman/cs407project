@@ -10,8 +10,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.widget.Toast;
-
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,7 +21,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
@@ -37,7 +38,6 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -127,7 +127,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
                         startActivity(navigationIntent);
                         return true;
                     case R.id.action_add:
-                        Intent addIntent = new Intent(HomeActivity.this, SelectionActivity.class);
+                        Intent addIntent = new Intent(HomeActivity.this, AddActivity.class);
                         startActivity(addIntent);
                         return true;
                     case R.id.action_search:
