@@ -1,15 +1,22 @@
 package com.example.cs407project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+
+import com.example.cs407project.models.PPEPost;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,13 +30,23 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     private GoogleMap mMap;
     private Marker mTest;
+    DatabaseReference postsReference;
+    ArrayList<PPEPost> postsList;
     private FusedLocationProviderClient mFusedLocationProviderClient; //save the instance
     private final LatLng mDestinationLatLng = new LatLng(43.0715255, -89.4088546);
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12; //could've been any number
@@ -41,10 +58,39 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
 
         mapFragment.getMapAsync(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        Log.d("test firebase stuff", "failed making the map");
+
+        postsReference = FirebaseDatabase.getInstance().getReference().child("posts");
+        Query postsQuery = postsReference.orderByChild("authorUUID");
+
+        Log.d("test firebase stuff", "failed after query");
+
+        postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    PPEPost newPost = new PPEPost();
+                    newPost.id = (String) data.child("id").getValue();
+                    newPost.type = (String) data.child("type").getValue();
+                    newPost.PPEList = (java.util.HashMap<String, String>) data.child("PPEList").getValue();
+                    newPost.lat = (String) data.child("lat").getValue();
+                    newPost.lon = (String) data.child("lon").getValue();
+                    Log.d("MyApp", newPost.id);
+                    postsList.add(newPost);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("test firebase stuff", "failed DataSnapshot");
+            }
+        });
 
     }
 
@@ -77,10 +123,16 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+//        for(PPEPost i : postsList) {
+//            LatLng positionData = new LatLng(Integer.parseInt(i.lat), Integer.parseInt(i.lon));
+//            mTest = mMap.addMarker(new MarkerOptions()
+//                    .position(positionData)
+//                    .title("test destination" + i.id));
+//            displayMyLocation();
+//            mMap.setOnMarkerClickListener(this);
+//        }
         mTest = mMap.addMarker(new MarkerOptions()
-                .position(mDestinationLatLng)
-                .title("test destination"));
+        .position(mDestinationLatLng).title("test destination"));
         displayMyLocation();
         mMap.setOnMarkerClickListener(this);
     }
