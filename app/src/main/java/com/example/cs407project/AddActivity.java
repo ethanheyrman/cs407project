@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,12 +15,23 @@ import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
     Gson gson;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +40,29 @@ public class AddActivity extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-
         sharedPreferences = getSharedPreferences("com.example.cs407project", Context.MODE_PRIVATE);
         setContentView(R.layout.activity_add);
         gson = new Gson();
+        mAuth = FirebaseAuth.getInstance();
+        sharedPreferences.edit().putString("username", mAuth.getUid()).commit();
+        String username = sharedPreferences.getString("username", "");
+        DatabaseReference offerPost = FirebaseDatabase.getInstance().getReference("posts").child(username + "offer").child("info");
+        DatabaseReference requestPost = FirebaseDatabase.getInstance().getReference("posts").child(username + "request").child("info");
+
+        ValueEventListener listener = new eventListener(0);
+        ValueEventListener listener2 = new eventListener(1);
+
+        offerPost.addListenerForSingleValueEvent(listener);
+        requestPost.addListenerForSingleValueEvent(listener2);
     }
+
 
     public void onResume() {
         super.onResume();
+        loadUI();
+    }
+
+    public void loadUI() {
         String isOffer = sharedPreferences.getString("offer", "none");
         String isRequest = sharedPreferences.getString("request", "none");
 
@@ -54,6 +81,35 @@ public class AddActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.frameLayout2, new ButtonFragment(1));
         }
         fragmentTransaction.commit();
+    }
+
+    class eventListener implements ValueEventListener {
+        int type;
+
+        eventListener(int type) {
+            this.type = type;
+        }
+
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            GenericTypeIndicator<List<String>> genericTypeIndicator = new GenericTypeIndicator<List<String>>() {
+            };
+            ArrayList<String> values = (ArrayList<String>) dataSnapshot.getValue(genericTypeIndicator);
+            if (values != null && values.size() != 0) {
+                String[] offer = values.toArray(new String[values.size()]);
+                String json = gson.toJson(offer);
+                if (type == 0) {
+                    sharedPreferences.edit().putString("offer", json).commit();
+                } else {
+                    sharedPreferences.edit().putString("request", json).commit();
+                }
+                loadUI();
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =

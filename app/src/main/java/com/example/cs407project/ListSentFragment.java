@@ -2,6 +2,7 @@ package com.example.cs407project;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -13,6 +14,11 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 @SuppressLint("ValidFragment")
 public class ListSentFragment extends Fragment {
@@ -22,6 +28,9 @@ public class ListSentFragment extends Fragment {
     int type;
     String[] entries;
     SharedPreferences sharedPreferences;
+    DatabaseReference postsBase;
+    DatabaseReference geoLoc;
+    String username;
 
     public ListSentFragment() {
     }
@@ -31,6 +40,7 @@ public class ListSentFragment extends Fragment {
         this.type = type;
         this.entries = entries;
         this.sharedPreferences = sharedPreferences;
+        username = sharedPreferences.getString("username", "");
     }
 
     @Override
@@ -47,6 +57,8 @@ public class ListSentFragment extends Fragment {
         TextView textView = view.findViewById(R.id.title);
         if (type == 0) {
             textView.setText("I'm Offering: ");
+            postsBase = FirebaseDatabase.getInstance().getReference("posts").child(username + "offer");
+            geoLoc = FirebaseDatabase.getInstance().getReference("geofireoffers").child(username + "offer");
             button.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
@@ -59,12 +71,14 @@ public class ListSentFragment extends Fragment {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            delete(0);
+                            confirmDelete(0);
                         }
                     }
             );
         } else {
             textView.setText("I Need: ");
+            postsBase = FirebaseDatabase.getInstance().getReference("posts").child(username + "request");
+            geoLoc = FirebaseDatabase.getInstance().getReference("geofirerequests").child(username + "request");
             button.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
@@ -77,7 +91,7 @@ public class ListSentFragment extends Fragment {
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            delete(1);
+                            confirmDelete(1);
                         }
                     }
             );
@@ -97,11 +111,31 @@ public class ListSentFragment extends Fragment {
         startActivity(intent);
     }
 
-    public void delete(int type) {
+    public void confirmDelete(int type) {
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle("Delete post?")
+                .setMessage("Are you sure you want to delete this post?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == -1) {
+                            actualDelete(type);
+                        }
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    public void actualDelete(int type) {
         if (type == 0) {
             sharedPreferences.edit().remove("offer").commit();
+            postsBase.removeValue();
+            geoLoc.removeValue();
         } else {
             sharedPreferences.edit().remove("request").commit();
+            postsBase.removeValue();
+            geoLoc.removeValue();
         }
         getActivity().recreate();
     }

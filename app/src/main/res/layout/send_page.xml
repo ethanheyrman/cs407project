@@ -15,32 +15,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--
-    <TextView
-        android:id="@+id/clothmask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cloth Mask"
-        app:layout_constraintTop_toBottomOf="@id/type"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:textSize="24dp"
-        android:layout_marginTop="10dp"
-        />
-
-
-    <EditText
-        android:id="@+id/check"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24dp"
-        android:hint="Quantity"
-        android:maxLength="8"
-        android:inputType="number"
-        app:layout_constraintTop_toBottomOf="@id/type"
-        android:layout_marginRight="5dp"
-        app:layout_constraintRight_toRightOf="parent" />
-        -->
-
     <GridView
         android:id="@+id/itemList"
         android:layout_width="match_parent"
@@ -52,6 +26,15 @@
         android:verticalSpacing="1dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/type" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:text="Your location and contact information will be sent along with this post"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/itemList" />
 
     <Button
         android:id="@+id/cancel"
