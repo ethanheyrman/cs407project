@@ -1,17 +1,13 @@
 package com.example.cs407project;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -41,7 +37,6 @@ public class AddActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         sharedPreferences = getSharedPreferences("com.example.cs407project", Context.MODE_PRIVATE);
-        setContentView(R.layout.activity_add);
         gson = new Gson();
         mAuth = FirebaseAuth.getInstance();
         sharedPreferences.edit().putString("username", mAuth.getUid()).commit();
