@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.cs407project">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -12,27 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SelectionActivity" />
-        <activity android:name=".SettingsActivity" />
+        <activity android:name=".ResourcesActivity" />
+        <activity android:name=".HomeActivity" />
         <activity android:name=".AddActivity" />
-        <activity android:name=".NavigationActivity" />
         <activity android:name=".SearchActivity" />
 
-        <activity android:name=".ProfileActivity"
-            android:theme="@style/Theme.MaterialComponents.NoActionBar" />
+        <activity android:name=".ProfileActivity" />
 
-        <activity android:name=".HomeActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
-
-        <activity android:name=".UserRegistrationActivity"
+        <activity
+            android:name=".UserRegistrationActivity"
             android:theme="@style/AppTheme.TransparentTheme" />
 
-        <activity android:name=".UserProfileCreationActivity"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
-            />
-
-        <activity android:name=".MainActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity
+            android:name=".UserProfileCreationActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

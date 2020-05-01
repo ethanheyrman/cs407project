@@ -126,9 +126,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
-        new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            item -> {
             switch (item.getItemId()) {
                 case R.id.action_search:
                     Intent searchIntent = new Intent(ProfileActivity.this, SearchActivity.class);
@@ -138,22 +136,20 @@ public class ProfileActivity extends AppCompatActivity {
                     Intent profileIntent = new Intent(ProfileActivity.this, ProfileActivity.class);
                     startActivity(profileIntent);
                     return true;
-                case R.id.action_navigation:
-                    Intent navigationIntent = new Intent(ProfileActivity.this, NavigationActivity.class);
+                case R.id.action_home:
+                    Intent navigationIntent = new Intent(ProfileActivity.this, HomeActivity.class);
                     startActivity(navigationIntent);
                     return true;
                 case R.id.action_add:
                     Intent addIntent = new Intent(ProfileActivity.this, AddActivity.class);
                     startActivity(addIntent);
                     return true;
-                case R.id.action_settings:
-                    Intent settingsIntent = new Intent(ProfileActivity.this, SettingsActivity.class);
+                case R.id.action_resources:
+                    Intent settingsIntent = new Intent(ProfileActivity.this, ResourcesActivity.class);
                     startActivity(settingsIntent);
                     return true;
                 default:
                     return false;
             }
-            }
-
-        };
+            };
 }
