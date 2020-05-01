@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">cs407project</string>
+    <string name="shieldNetLink"><a href="https://shield-net.org/">Shield-Net</a></string>
+    <string name="cdcLink"><a href="https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/cases-in-us.html">CDC</a></string>
+    <string name="whoLink"><a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019">WHO</a></string>
+    <string name="nihLink"><a href="https://www.nih.gov/health-information/coronavirus">NIH</a></string>
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
