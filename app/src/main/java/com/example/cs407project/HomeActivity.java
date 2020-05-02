@@ -17,6 +17,10 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.example.cs407project.models.PPEPost;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,8 +34,6 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,11 +46,14 @@ import java.util.ArrayList;
 public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private Marker mTest;
-    DatabaseReference postsReference;
-    ArrayList<PPEPost> postsList;
+//    DatabaseReference postsReference;
+    DatabaseReference locationReference;
+    GeoFire geoFire;
+    String formType;
+//    ArrayList<PPEPost> postsList;
     private FusedLocationProviderClient mFusedLocationProviderClient; //save the instance
-    private final LatLng mDestinationLatLng = new LatLng(43.0715255, -89.4088546);
+    private  LatLng mDestinationLatLng = new LatLng(43.0715255, -89.4088546);
+    private LatLng mCurrentLatLng;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12; //could've been any number
 
     @Override
@@ -65,32 +70,61 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         Log.d("test firebase stuff", "failed making the map");
 
-        postsReference = FirebaseDatabase.getInstance().getReference().child("posts");
-        Query postsQuery = postsReference.orderByChild("authorUUID");
+//        postsReference = FirebaseDatabase.getInstance().getReference().child("posts");
+//        Query postsQuery = postsReference.orderByChild("authorUUID");
+        locationReference = FirebaseDatabase.getInstance().getReference("geofire" + formType + "s");
+        geoFire = new GeoFire(locationReference);
+        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mCurrentLatLng.latitude, mCurrentLatLng.longitude), 0.6); //fix to have current location
 
         Log.d("test firebase stuff", "failed after query");
 
-        postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    PPEPost newPost = new PPEPost();
-                    newPost.id = (String) data.child("id").getValue();
-                    newPost.type = (String) data.child("type").getValue();
-                    newPost.PPEList = (java.util.HashMap<String, String>) data.child("PPEList").getValue();
-                    newPost.lat = (String) data.child("lat").getValue();
-                    newPost.lon = (String) data.child("lon").getValue();
-                    Log.d("MyApp", newPost.id);
-                    postsList.add(newPost);
-                }
-
+            public void onKeyEntered(String key, GeoLocation location) {
+                Log.i("asdfa", key);
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("test firebase stuff", "failed DataSnapshot");
+            public void onKeyExited(String key) {
+                System.out.println(String.format("Key %s is no longer in the search area", key));
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                System.out.println(String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+                System.out.println("All initial data has been loaded and events have been fired!");
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+                System.err.println("There was an error with this query: " + error);
             }
         });
+//        postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot data : dataSnapshot.getChildren()) {
+//                    PPEPost newPost = new PPEPost();
+//                    newPost.id = (String) data.child("id").getValue();
+//                    newPost.type = (String) data.child("type").getValue();
+//                    newPost.PPEList = (java.util.HashMap<String, String>) data.child("PPEList").getValue();
+//                    newPost.lat = (String) data.child("lat").getValue();
+//                    newPost.lon = (String) data.child("lon").getValue();
+//                    Log.d("MyApp", newPost.id);
+//                    postsList.add(newPost);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.d("test firebase stuff", "failed DataSnapshot");
+//            }
+//        });
 
     }
 
@@ -111,6 +145,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
                         Location mLastKnownLocation = task.getResult();
                         if (task.isSuccessful() && mLastKnownLocation != null) {
                             System.out.println("This is the last known location: " + mLastKnownLocation);
+                            mCurrentLatLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
                             mMap.addPolyline(new PolylineOptions()
                                     .add(new LatLng(mLastKnownLocation.getLatitude(),
                                             mLastKnownLocation.getLongitude()), mDestinationLatLng));
@@ -132,7 +167,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
 //            mMap.setOnMarkerClickListener(this);
 //        }
         mTest = mMap.addMarker(new MarkerOptions()
-        .position(mDestinationLatLng).title("test destination"));
+                .position(mDestinationLatLng).title("test destination"));
         displayMyLocation();
         mMap.setOnMarkerClickListener(this);
     }
