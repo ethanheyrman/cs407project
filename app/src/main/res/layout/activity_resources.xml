@@ -16,10 +16,11 @@
             android:orientation="vertical">
 
             <ImageView
-            android:id="@+id/shieldNetImage"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:srcCompat="@drawable/shield_image" />
+                android:id="@+id/shieldNetImage"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:srcCompat="@drawable/shield_image" />
+
             <TextView
                 android:id="@+id/shieldNetLink"
                 android:layout_width="match_parent"
@@ -27,6 +28,7 @@
                 android:gravity="center"
                 android:linksClickable="true"
                 android:text="@string/shieldNetLink"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:srcCompat="@drawable/cdc_image" />
+
             <TextView
                 android:id="@+id/cdcLink"
                 android:layout_width="match_parent"
@@ -44,6 +47,7 @@
                 android:gravity="center"
                 android:linksClickable="true"
                 android:text="@string/cdcLink"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -53,24 +57,29 @@
                 android:id="@+id/whoImage"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 app:srcCompat="@drawable/who_image" />
+
             <TextView
                 android:id="@+id/whoLink"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginBottom="60dp"
                 android:gravity="center"
                 android:linksClickable="true"
                 android:text="@string/whoLink"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/nihImage"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:srcCompat="@drawable/nih_image" />
+
             <TextView
                 android:id="@+id/nihLink"
                 android:layout_width="match_parent"
@@ -79,12 +88,11 @@
                 android:gravity="center"
                 android:linksClickable="true"
                 android:text="@string/nihLink"
+                android:textSize="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-
 
         </LinearLayout>
     </ScrollView>
@@ -99,6 +107,5 @@
         app:itemTextColor="@android:color/white"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_navigation_bar" />
-
 
 </FrameLayout>
