@@ -17,6 +17,7 @@
         <activity android:name=".HomeActivity" />
         <activity android:name=".AddActivity" />
         <activity android:name=".SearchActivity" />
+        <activity android:name=".Search"/>
 
         <activity android:name=".ProfileActivity" />
 

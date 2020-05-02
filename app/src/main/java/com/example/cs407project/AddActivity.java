@@ -8,6 +8,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -35,14 +36,15 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         sharedPreferences = getSharedPreferences("com.example.cs407project", Context.MODE_PRIVATE);
+        sharedPreferences.edit().remove("offer").commit();
+        sharedPreferences.edit().remove("request").commit();
+
         gson = new Gson();
         mAuth = FirebaseAuth.getInstance();
         sharedPreferences.edit().putString("username", mAuth.getUid()).commit();
-        String username = sharedPreferences.getString("username", "");
-        DatabaseReference offerPost = FirebaseDatabase.getInstance().getReference("posts").child(username + "offer").child("info");
-        DatabaseReference requestPost = FirebaseDatabase.getInstance().getReference("posts").child(username + "request").child("info");
+        DatabaseReference offerPost = FirebaseDatabase.getInstance().getReference("posts").child(mAuth.getUid() + "offer").child("info");
+        DatabaseReference requestPost = FirebaseDatabase.getInstance().getReference("posts").child(mAuth.getUid() + "request").child("info");
 
         ValueEventListener listener = new eventListener(0);
         ValueEventListener listener2 = new eventListener(1);
@@ -111,7 +113,7 @@ public class AddActivity extends AppCompatActivity {
             item -> {
                 switch (item.getItemId()) {
                     case R.id.action_search:
-                        Intent searchIntent = new Intent(AddActivity.this, SearchActivity.class);
+                        Intent searchIntent = new Intent(AddActivity.this, Search.class);
                         startActivity(searchIntent);
                         return true;
                     case R.id.action_profile:

@@ -67,7 +67,7 @@ public class HomeActivity extends AppCompatActivity {
                         startActivity(addIntent);
                         return true;
                     case R.id.action_search:
-                        Intent settingsIntent = new Intent(HomeActivity.this, SearchActivity.class);
+                        Intent settingsIntent = new Intent(HomeActivity.this, Search.class);
                         startActivity(settingsIntent);
                         return true;
                     default:
