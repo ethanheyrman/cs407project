@@ -39,7 +39,7 @@ public class AddActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("com.example.cs407project", Context.MODE_PRIVATE);
         sharedPreferences.edit().remove("offer").commit();
         sharedPreferences.edit().remove("request").commit();
-        
+
         gson = new Gson();
         mAuth = FirebaseAuth.getInstance();
         sharedPreferences.edit().putString("username", mAuth.getUid()).commit();
