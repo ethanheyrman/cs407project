@@ -5,13 +5,13 @@ public class PPEPost {
     public String id;
     public String authorUUID;
     public String type;
-    public String lat;
-    public String lon;
+    public Double lat;
+    public Double lon;
     public HashMap<String, String> PPEList;
 
     public PPEPost () {}
 
-    public PPEPost(String id, String authorUUID, String type, HashMap<String, String> PPEList, String lat, String lon) {
+    public PPEPost(String id, String authorUUID, String type, HashMap<String, String> PPEList, Double lat, Double lon) {
         this.id = id;
         this.authorUUID = authorUUID;
         this.type = type;

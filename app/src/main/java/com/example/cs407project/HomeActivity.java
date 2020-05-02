@@ -43,17 +43,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-//    DatabaseReference postsReference;
-    DatabaseReference locationReference;
-    GeoFire geoFire;
-    String formType;
-//    ArrayList<PPEPost> postsList;
+    DatabaseReference geoFireRequestsReference;
+    DatabaseReference geoFireOffersReference;
+    GeoFire geoFireRequests;
+    GeoFire geoFireOffers;
+    ArrayList<PPEPost> postsList = new ArrayList<>();
+    ArrayList<MarkerOptions> markerList = new ArrayList<>();
     private FusedLocationProviderClient mFusedLocationProviderClient; //save the instance
-    private  LatLng mDestinationLatLng = new LatLng(43.0715255, -89.4088546);
-    private LatLng mCurrentLatLng;
+    private LatLng mDestinationLatLng = new LatLng(43.0715255, -89.4088546);
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12; //could've been any number
 
     @Override
@@ -63,25 +63,57 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        GoogleMap.OnMarkerClickListener mapClickListener = marker -> {
+            MaterialAlertDialogBuilder selectionWindow = new MaterialAlertDialogBuilder(this)
+                    .setTitle(marker.getTitle())
+                    .setMessage("Test Info")
+                    .setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss())
+                    .setPositiveButton("MESSAGE", (dialog, which) -> {
+                        Intent messagingIntent = new Intent(Intent.ACTION_SENDTO);
+                        messagingIntent.setData(Uri.parse("smsto:" + Uri.encode("18002221111")));
+                        messagingIntent.putExtra("sms_body", "Hello! I would like to provide/request PPE");
+                        startActivity(messagingIntent);
+                    });
+            selectionWindow.show();
+            return false;
+        };
+
+        geoFireRequestsReference = FirebaseDatabase.getInstance().getReference("geofirerequests");
+        geoFireRequests = new GeoFire(geoFireRequestsReference);
+        GeoQuery geoQueryRequests = geoFireRequests.queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 0.6);
+        Log.i("asdfa", "no fail after request query");
+
+        geoFireOffersReference = FirebaseDatabase.getInstance().getReference("geofireoffers");
+        geoFireOffers = new GeoFire(geoFireOffersReference);
+        GeoQuery geoQueryOffers = geoFireOffers.queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 0.6);
+        Log.i("asdfa", "no fail after offer query");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
-
         mapFragment.getMapAsync(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        Log.d("test firebase stuff", "failed making the map");
+        Log.i("asdfa", "mapAsync fine");
+        Log.i("asdfa", mDestinationLatLng.toString());
 
-//        postsReference = FirebaseDatabase.getInstance().getReference().child("posts");
-//        Query postsQuery = postsReference.orderByChild("authorUUID");
-        locationReference = FirebaseDatabase.getInstance().getReference("geofire" + formType + "s");
-        geoFire = new GeoFire(locationReference);
-        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(mCurrentLatLng.latitude, mCurrentLatLng.longitude), 0.6); //fix to have current location
-
-        Log.d("test firebase stuff", "failed after query");
-
-        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+        geoQueryRequests.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
+                PPEPost newPPE = new PPEPost();
+                String updatedKey = "";
                 Log.i("asdfa", key);
+                updatedKey = key.replace("request", "");
+                newPPE.type = "request";
+                Log.i("asdfa", updatedKey);
+                newPPE.id = updatedKey;
+                newPPE.lat = location.latitude;
+                newPPE.lon = location.longitude;
+                postsList.add(newPPE);
+                MarkerOptions newMarker = new MarkerOptions()
+                        .position(new LatLng(location.latitude, location.longitude))
+                        .title(newPPE.id);
+                mMap.addMarker(newMarker);
+                mMap.setOnMarkerClickListener(mapClickListener);
+                markerList.add(newMarker);
+
             }
 
             @Override
@@ -104,28 +136,48 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 System.err.println("There was an error with this query: " + error);
             }
         });
-//        postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                for (DataSnapshot data : dataSnapshot.getChildren()) {
-//                    PPEPost newPost = new PPEPost();
-//                    newPost.id = (String) data.child("id").getValue();
-//                    newPost.type = (String) data.child("type").getValue();
-//                    newPost.PPEList = (java.util.HashMap<String, String>) data.child("PPEList").getValue();
-//                    newPost.lat = (String) data.child("lat").getValue();
-//                    newPost.lon = (String) data.child("lon").getValue();
-//                    Log.d("MyApp", newPost.id);
-//                    postsList.add(newPost);
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//                Log.d("test firebase stuff", "failed DataSnapshot");
-//            }
-//        });
 
+        geoQueryOffers.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+                PPEPost newPPE = new PPEPost();
+                String updatedKey = "";
+                Log.i("asdfa", key);
+                updatedKey = key.replace("offer", "");
+                newPPE.type = "offer";
+                Log.i("asdfa", updatedKey);
+                newPPE.id = updatedKey;
+                newPPE.lat = location.latitude;
+                newPPE.lon = location.longitude;
+                postsList.add(newPPE);
+                MarkerOptions newMarker = new MarkerOptions()
+                        .position(new LatLng(location.latitude, location.longitude))
+                        .title(newPPE.id);
+                mMap.addMarker(newMarker);
+                mMap.setOnMarkerClickListener(mapClickListener);
+                markerList.add(newMarker);
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+                System.out.println(String.format("Key %s is no longer in the search area", key));
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+                System.out.println(String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+                System.out.println("All initial data has been loaded and events have been fired!");
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+                System.err.println("There was an error with this query: " + error);
+            }
+        });
     }
 
     private void displayMyLocation() {
@@ -144,11 +196,7 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
                     .addOnCompleteListener(this, task -> {
                         Location mLastKnownLocation = task.getResult();
                         if (task.isSuccessful() && mLastKnownLocation != null) {
-                            System.out.println("This is the last known location: " + mLastKnownLocation);
-                            mCurrentLatLng = new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
-                            mMap.addPolyline(new PolylineOptions()
-                                    .add(new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), mDestinationLatLng));
+                            Log.i("asdfa", "This is the last known location: " + mLastKnownLocation);
                         }
                     });
         }
@@ -158,44 +206,9 @@ public class HomeActivity extends AppCompatActivity implements GoogleMap.OnMarke
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-//        for(PPEPost i : postsList) {
-//            LatLng positionData = new LatLng(Integer.parseInt(i.lat), Integer.parseInt(i.lon));
-//            mTest = mMap.addMarker(new MarkerOptions()
-//                    .position(positionData)
-//                    .title("test destination" + i.id));
-//            displayMyLocation();
-//            mMap.setOnMarkerClickListener(this);
-//        }
-        mTest = mMap.addMarker(new MarkerOptions()
-                .position(mDestinationLatLng).title("test destination"));
         displayMyLocation();
-        mMap.setOnMarkerClickListener(this);
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        MaterialAlertDialogBuilder selectionWindow = new MaterialAlertDialogBuilder(this)
-                .setTitle("Item Selected")
-                .setMessage("Test Info")
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
-                .setPositiveButton("MESSAGE", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent messagingIntent = new Intent(Intent.ACTION_SENDTO);
-                        messagingIntent.setData(Uri.parse("smsto:" + Uri.encode("18002221111")));
-                        messagingIntent.putExtra("sms_body", "Hello! I would like to provide/request PPE");
-                        startActivity(messagingIntent);
-                    }
-                });
-        selectionWindow.show();
-
-        return false;
-    }
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
