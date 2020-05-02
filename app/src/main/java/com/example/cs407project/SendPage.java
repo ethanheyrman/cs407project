@@ -70,39 +70,6 @@ public class SendPage extends AppCompatActivity {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("geofire" + formType + "s");
         geoFire = new GeoFire(ref);
         handleLocation();
-
-        /*
-        GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(37.7832, -122.4056), 0.6);
-        Log.i("asdfa","asdfasdf");
-        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
-            @Override
-            public void onKeyEntered(String key, GeoLocation location) {
-                Log.i("asdfa",key);
-            }
-
-            @Override
-            public void onKeyExited(String key) {
-                System.out.println(String.format("Key %s is no longer in the search area", key));
-            }
-
-            @Override
-            public void onKeyMoved(String key, GeoLocation location) {
-                System.out.println(String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
-            }
-
-            @Override
-            public void onGeoQueryReady() {
-                System.out.println("All initial data has been loaded and events have been fired!");
-            }
-
-            @Override
-            public void onGeoQueryError(DatabaseError error) {
-                System.err.println("There was an error with this query: " + error);
-            }
-        });
-
-         */
-
     }
 
     public void onResume() {
