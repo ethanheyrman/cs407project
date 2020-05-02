@@ -113,7 +113,7 @@ public class AddActivity extends AppCompatActivity {
             item -> {
                 switch (item.getItemId()) {
                     case R.id.action_search:
-                        Intent searchIntent = new Intent(AddActivity.this, Search.class);
+                        Intent searchIntent = new Intent(AddActivity.this, SearchActivity.class);
                         startActivity(searchIntent);
                         return true;
                     case R.id.action_profile:

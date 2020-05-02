@@ -38,18 +38,20 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     DatabaseReference geoFireRequestsReference;
     DatabaseReference geoFireOffersReference;
-    //    DatabaseReference postReference;
-//    DatabaseReference userReference;
+    DatabaseReference postReference;
+    DatabaseReference userReference;
     GeoFire geoFireRequests;
     GeoFire geoFireOffers;
     ArrayList<PPEPost> postsList = new ArrayList<>();
@@ -83,15 +85,15 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         geoFireRequestsReference = FirebaseDatabase.getInstance().getReference("geofirerequests");
         geoFireRequests = new GeoFire(geoFireRequestsReference);
         GeoQuery geoQueryRequests = geoFireRequests
-                .queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 0.6);
+                .queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 20);
 
         geoFireOffersReference = FirebaseDatabase.getInstance().getReference("geofireoffers");
         geoFireOffers = new GeoFire(geoFireOffersReference);
         GeoQuery geoQueryOffers = geoFireOffers
-                .queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 0.6);
+                .queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 20);
 
-//        postReference = FirebaseDatabase.getInstance().getReference().child("posts");
-//        userReference = FirebaseDatabase.getInstance().getReference().child("users");
+        postReference = FirebaseDatabase.getInstance().getReference().child("posts");
+        userReference = FirebaseDatabase.getInstance().getReference().child("users");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.fragment_map);
@@ -104,10 +106,47 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 PPEPost newPPE = new PPEPost();
                 newPPE.type = "request";
                 newPPE.id = key.replace("request", "");
-                newPPE.lat = location.latitude;
-                newPPE.lon = location.longitude;
-//                Query postQuery = postReference.orderByChild("authorUUID").equalTo(key);
-//                Query userQuery = userReference.orderByChild("UUID").equalTo(newPPE.id);
+                newPPE.location = location;
+                Query postQuery = postReference.orderByChild("authorUUID").equalTo(key);
+                postQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            GenericTypeIndicator<List<String>> genericTypeIndicator =
+                                    new GenericTypeIndicator<List<String>>() {
+                                    };
+                            ArrayList<String> values = (ArrayList<String>) data
+                                    .child("info")
+                                    .getValue(genericTypeIndicator);
+                            newPPE.PPEList = values.toArray(new String[values.size()]);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                Query userQuery = userReference.orderByChild("uuid").equalTo(newPPE.id);
+                userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            newPPE.name = (String) data.child("firstName").getValue();
+                            newPPE.email = (String) data.child("email").getValue();
+                            newPPE.phone = (String) data.child("phone").getValue();
+                            boolean isOrg = (Boolean) data.child("isOrganization").getValue();
+                            if (isOrg) {
+                                newPPE.organization = (String) data.child("organizationName").getValue();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 postsList.add(newPPE);
                 MarkerOptions newMarker = new MarkerOptions()
                         .position(new LatLng(location.latitude, location.longitude))
@@ -115,7 +154,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 mMap.addMarker(newMarker);
                 mMap.setOnMarkerClickListener(mapClickListener);
                 markerList.add(newMarker);
-
             }
 
             @Override
@@ -145,10 +183,47 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 PPEPost newPPE = new PPEPost();
                 newPPE.type = "offer";
                 newPPE.id = key.replace("offer", "");
-                newPPE.lat = location.latitude;
-                newPPE.lon = location.longitude;
-//                Query postQuery = postReference.orderByChild("authorUUID").equalTo(key);
-//                Query userQuery = userReference.orderByChild("UUID").equalTo(newPPE.id);
+                newPPE.location = location;
+                Query postQuery = postReference.orderByChild("authorUUID").equalTo(key);
+                postQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            GenericTypeIndicator<List<String>> genericTypeIndicator =
+                                    new GenericTypeIndicator<List<String>>() {
+                                    };
+                            ArrayList<String> values = (ArrayList<String>) data
+                                    .child("info")
+                                    .getValue(genericTypeIndicator);
+                            newPPE.PPEList = values.toArray(new String[values.size()]);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                Query userQuery = userReference.orderByChild("uuid").equalTo(newPPE.id);
+                userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot data : dataSnapshot.getChildren()) {
+                            newPPE.name = (String) data.child("firstName").getValue();
+                            newPPE.email = (String) data.child("email").getValue();
+                            newPPE.phone = (String) data.child("phone").getValue();
+                            boolean isOrg = (Boolean) data.child("isOrganization").getValue();
+                            if (isOrg) {
+                                newPPE.organization = (String) data.child("organizationName").getValue();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 postsList.add(newPPE);
                 MarkerOptions newMarker = new MarkerOptions()
                         .position(new LatLng(location.latitude, location.longitude))
@@ -230,7 +305,7 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                         startActivity(addIntent);
                         return true;
                     case R.id.action_search:
-                        Intent settingsIntent = new Intent(HomeActivity.this, Search.class);
+                        Intent settingsIntent = new Intent(HomeActivity.this, SearchActivity.class);
                         startActivity(settingsIntent);
                         return true;
                     default:
