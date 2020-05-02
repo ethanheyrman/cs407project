@@ -48,12 +48,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     DatabaseReference geoFireRequestsReference;
     DatabaseReference geoFireOffersReference;
+    //    DatabaseReference postReference;
+//    DatabaseReference userReference;
     GeoFire geoFireRequests;
     GeoFire geoFireOffers;
     ArrayList<PPEPost> postsList = new ArrayList<>();
     ArrayList<MarkerOptions> markerList = new ArrayList<>();
     private FusedLocationProviderClient mFusedLocationProviderClient; //save the instance
-    private LatLng mDestinationLatLng = new LatLng(43.0715255, -89.4088546);
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12; //could've been any number
 
     @Override
@@ -71,7 +72,8 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                     .setPositiveButton("MESSAGE", (dialog, which) -> {
                         Intent messagingIntent = new Intent(Intent.ACTION_SENDTO);
                         messagingIntent.setData(Uri.parse("smsto:" + Uri.encode("18002221111")));
-                        messagingIntent.putExtra("sms_body", "Hello! I would like to provide/request PPE");
+                        messagingIntent.putExtra("sms_body",
+                                "Hello! I would like to provide/request PPE");
                         startActivity(messagingIntent);
                     });
             selectionWindow.show();
@@ -80,36 +82,36 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         geoFireRequestsReference = FirebaseDatabase.getInstance().getReference("geofirerequests");
         geoFireRequests = new GeoFire(geoFireRequestsReference);
-        GeoQuery geoQueryRequests = geoFireRequests.queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 0.6);
-        Log.i("asdfa", "no fail after request query");
+        GeoQuery geoQueryRequests = geoFireRequests
+                .queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 0.6);
 
         geoFireOffersReference = FirebaseDatabase.getInstance().getReference("geofireoffers");
         geoFireOffers = new GeoFire(geoFireOffersReference);
-        GeoQuery geoQueryOffers = geoFireOffers.queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 0.6);
-        Log.i("asdfa", "no fail after offer query");
+        GeoQuery geoQueryOffers = geoFireOffers
+                .queryAtLocation(new GeoLocation(42.9915549, -88.0827346), 0.6);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_map);
+//        postReference = FirebaseDatabase.getInstance().getReference().child("posts");
+//        userReference = FirebaseDatabase.getInstance().getReference().child("users");
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragment_map);
         mapFragment.getMapAsync(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        Log.i("asdfa", "mapAsync fine");
-        Log.i("asdfa", mDestinationLatLng.toString());
 
         geoQueryRequests.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
                 PPEPost newPPE = new PPEPost();
-                String updatedKey = "";
-                Log.i("asdfa", key);
-                updatedKey = key.replace("request", "");
                 newPPE.type = "request";
-                Log.i("asdfa", updatedKey);
-                newPPE.id = updatedKey;
+                newPPE.id = key.replace("request", "");
                 newPPE.lat = location.latitude;
                 newPPE.lon = location.longitude;
+//                Query postQuery = postReference.orderByChild("authorUUID").equalTo(key);
+//                Query userQuery = userReference.orderByChild("UUID").equalTo(newPPE.id);
                 postsList.add(newPPE);
                 MarkerOptions newMarker = new MarkerOptions()
                         .position(new LatLng(location.latitude, location.longitude))
-                        .title(newPPE.id);
+                        .title(newPPE.id + " " + newPPE.type);
                 mMap.addMarker(newMarker);
                 mMap.setOnMarkerClickListener(mapClickListener);
                 markerList.add(newMarker);
@@ -141,18 +143,16 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
                 PPEPost newPPE = new PPEPost();
-                String updatedKey = "";
-                Log.i("asdfa", key);
-                updatedKey = key.replace("offer", "");
                 newPPE.type = "offer";
-                Log.i("asdfa", updatedKey);
-                newPPE.id = updatedKey;
+                newPPE.id = key.replace("offer", "");
                 newPPE.lat = location.latitude;
                 newPPE.lon = location.longitude;
+//                Query postQuery = postReference.orderByChild("authorUUID").equalTo(key);
+//                Query userQuery = userReference.orderByChild("UUID").equalTo(newPPE.id);
                 postsList.add(newPPE);
                 MarkerOptions newMarker = new MarkerOptions()
                         .position(new LatLng(location.latitude, location.longitude))
-                        .title(newPPE.id);
+                        .title(newPPE.id + " " + newPPE.type);
                 mMap.addMarker(newMarker);
                 mMap.setOnMarkerClickListener(mapClickListener);
                 markerList.add(newMarker);
@@ -208,7 +208,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         displayMyLocation();
     }
-
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
