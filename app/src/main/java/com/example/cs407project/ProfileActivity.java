@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,17 +25,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
     public EditText firstName;
     public EditText lastName;
-    public EditText occupation;
-    public EditText age;
+    public EditText email;
+    public EditText phone;
     public EditText organizationName;
     public View organizationNameContainer;
     public ListView listView;
-
+    public TextView activePosts;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     DatabaseReference usersReference;
@@ -60,13 +63,13 @@ public class ProfileActivity extends AppCompatActivity {
         // Profile Layout References
         firstName = findViewById(R.id.first_name_container).findViewById(R.id.first_name);
         lastName = findViewById(R.id.last_name_container).findViewById(R.id.last_name);
-        age = findViewById(R.id.age_container).findViewById(R.id.age);
-        occupation = findViewById(R.id.occupation_container).findViewById(R.id.occupation);
-        organizationName = findViewById(R.id.organization_name_container)
-                .findViewById(R.id.organization_name);
+        email = findViewById(R.id.email_container).findViewById(R.id.email);
+        phone = findViewById(R.id.phone_container).findViewById(R.id.phone);
         organizationNameContainer = findViewById(R.id.organization_name_container);
+        organizationName = organizationNameContainer.findViewById(R.id.organization_name);
         listView = (ListView) findViewById(R.id.listView);
-
+        activePosts = findViewById(R.id.active_posts);
+//        listView.setEmptyView((TextView) findViewById(R.id.listView).findViewById(R.id.emptyElement));
         // Persistent Layout References
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -79,13 +82,15 @@ public class ProfileActivity extends AppCompatActivity {
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     firstName.setText((String) data.child("firstName").getValue());
                     lastName.setText((String) data.child("lastName").getValue());
-                    age.setText((String) data.child("age").getValue());
-                    occupation.setText((String) data.child("occupation").getValue());
+                    email.setText((String) data.child("email").getValue());
+                    phone.setText((String) data.child("phone").getValue());
                     Boolean isOrganization = (Boolean) data.child("isOrganization").getValue();
 
                     if (isOrganization) {
                         organizationNameContainer.setVisibility(View.VISIBLE);
                         organizationName.setText((String) data.child("organizationName").getValue());
+
+                        activePosts.setTop(R.id.email_container);
                     }
                 }
             }

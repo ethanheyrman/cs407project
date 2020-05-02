@@ -41,12 +41,13 @@
         app:helperTextTextColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/occupation_container">
+        app:layout_constraintTop_toBottomOf="@id/email_container">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/organization_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:editable="false"
             android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,7 +109,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/occupation_container"
+        android:id="@+id/email_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -120,25 +121,28 @@
         app:boxBackgroundColor="#FFFFFF"
         app:boxStrokeColor="#4E00E9"
         app:boxStrokeWidth="2dp"
-        app:helperText="@string/occupation"
+        app:helperText="@string/email"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#000000"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/age_container"
+        app:layout_constraintStart_toEndOf="@+id/phone_container"
         app:layout_constraintTop_toBottomOf="@+id/last_name_container">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/occupation"
+            android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
+            android:lines="1"
+            android:maxLines="1"
             android:textColor="#000000"
             android:textColorHighlight="#FFFFFF" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/age_container"
+        android:id="@+id/phone_container"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="50dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
@@ -146,22 +150,23 @@
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:ems="10"
-        android:inputType="number"
+        android:inputType="phone"
         app:boxBackgroundColor="#FFFFFF"
         app:boxStrokeColor="#4E00E9"
         app:boxStrokeWidth="2dp"
-        app:helperText="@string/age"
+        app:helperText="Phone"
         app:helperTextEnabled="true"
         app:helperTextTextColor="#000000"
-        app:layout_constraintEnd_toStartOf="@+id/occupation_container"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/email_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/first_name_container">
 
         <EditText
-            android:id="@+id/age"
+            android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="false"
+            android:maxLines="1"
             android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -179,7 +184,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/profile_image"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.318" />
+        app:layout_constraintVertical_bias="0.355" />
 
     <ListView
         android:id="@+id/listView"
@@ -194,7 +199,8 @@
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/organization_name_container" />
+        app:layout_constraintTop_toBottomOf="@+id/active_posts">
+    </ListView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -211,5 +217,19 @@
         app:menu="@menu/bottom_navigation_bar" >
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+    <TextView
+        android:id="@+id/active_posts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="Active Posts"
+        android:textColor="#000000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/organization_name_container" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
