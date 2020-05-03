@@ -116,35 +116,35 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        postQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot data: dataSnapshot.getChildren()) {
-                    if (activePosts.getVisibility() == View.INVISIBLE) activePosts.setVisibility(View.VISIBLE);
-                    String type = "";
-                    if (Objects.requireNonNull(data.getKey()).endsWith("request"))
-                        type = "Request";
-                    else if (Objects.requireNonNull(data.getKey()).endsWith("offer")) {
-                        Log.i("TAG", data.getKey());
-                        type = "Offer";
-                    }
-                    ArrayList ppe = (ArrayList) data.child("info").getValue();
-                    displayPosts.add(new ProfilePPEPost(data.getKey(), type, ppe));
-                }
-                ProfilePPEAdapter adapter = new ProfilePPEAdapter(context, displayPosts);
-                listView.setAdapter(adapter);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {}
-        });
+//        postQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for(DataSnapshot data: dataSnapshot.getChildren()) {
+//                    if (activePosts.getVisibility() == View.INVISIBLE) activePosts.setVisibility(View.VISIBLE);
+//                    String type = "";
+//                    if (Objects.requireNonNull(data.getKey()).endsWith("request"))
+//                        type = "Request";
+//                    else if (Objects.requireNonNull(data.getKey()).endsWith("offer")) {
+//                        Log.i("TAG", data.getKey());
+//                        type = "Offer";
+//                    }
+//                    ArrayList ppe = (ArrayList) data.child("info").getValue();
+//                    displayPosts.add(new ProfilePPEPost(data.getKey(), type, ppe));
+//                }
+//                ProfilePPEAdapter adapter = new ProfilePPEAdapter(context, displayPosts);
+//                listView.setAdapter(adapter);
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {}
+//        });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         editProfile.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

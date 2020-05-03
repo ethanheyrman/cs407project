@@ -146,7 +146,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void getNearby() {
-        GeoQuery geoQuery = geoFire.queryAtLocation(geoLocation, 10);
+        GeoQuery geoQuery = geoFire.queryAtLocation(geoLocation, 1000);
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {

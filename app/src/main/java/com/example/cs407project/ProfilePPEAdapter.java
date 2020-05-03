@@ -53,6 +53,7 @@ public class ProfilePPEAdapter extends ArrayAdapter<ProfilePPEPost> {
                         (PPETypes[i] + ": " + post.ppe[i])
                 );
             }
+            else textViews.get(i).setVisibility(View.INVISIBLE);
         }
         // Populate the data into the template view using the data object
 

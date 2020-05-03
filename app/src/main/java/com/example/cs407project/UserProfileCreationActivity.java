@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class UserProfileCreationActivity extends AppCompatActivity {
     private static final String TAG = "ProfileCreationActivity";
-    private static final String PHONE_PATTERN = "^[2-9]\\d{2}-\\d{3}-\\d{4}$";
+    private static final String PHONE_PATTERN = "^[1-9]\\d{2}-\\d{3}-\\d{4}$";
     public EditText firstName;
     public EditText lastName;
     public EditText phone;
