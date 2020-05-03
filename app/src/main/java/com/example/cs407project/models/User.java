@@ -6,10 +6,9 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class User {
     public String uuid;
     public String email;
+    public String phone;
     public String firstName;
     public String lastName;
-    public String age;
-    public String occupation;
     public Boolean isOrganization = false;
     public String organizationName = null;
 
@@ -17,14 +16,13 @@ public class User {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
     }
 
-    public User(String uuid, String email, String firstName, String lastName, String occupation,
-                String age, Boolean isOrganization, String organizationName) {
+    public User(String uuid, String email, String phone, String firstName, String lastName,
+                Boolean isOrganization, String organizationName) {
         this.uuid = uuid;
         this.email = email;
+        this.phone = phone;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.occupation = occupation;
-        this.age = age;
         this.isOrganization = isOrganization;
         this.organizationName = organizationName;
     }
