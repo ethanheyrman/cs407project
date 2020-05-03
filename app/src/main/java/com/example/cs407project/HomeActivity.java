@@ -306,7 +306,7 @@ public class HomeActivity extends AppCompatActivity {
                 handleLocation(offersOrRequests);
             }
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                Toast.makeText(this, "Your location is needed to send requests and offers", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Your location is needed to view nearby requests and offers", Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(() -> {
                     handleLocation(offersOrRequests);
                 }, 3500);
