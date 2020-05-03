@@ -73,17 +73,17 @@ public class UserRegistrationActivity extends AppCompatActivity {
         String password = passwordField.getText().toString();
         String confirmPassword = confirmPasswordField.getText().toString();
 
-        if (!validateEmail(email)) {
+        if (email.isEmpty()) {
             emailField.setError("Please enter a valid email.");
         }
         if (!password.isEmpty() && !confirmPassword.isEmpty())
             if (validateAndConfirmPassword(password, confirmPassword)) {
                 createAccount(email, password);
             } else {
-                confirmPasswordField.setError("Passwords do not match.");
                 passwordField.getText().clear();
                 confirmPasswordField.getText().clear();
-        }
+                confirmPasswordField.setError("Passwords do not match.");
+            }
         else if (!validatePassword(password))
             passwordField.setError("Password must be six or more characters and contain the following: \n - uppercase letter \n - number \n - symbol (@, #, $, %, ^, &, +, =, or !)");
         else confirmPasswordField.setError("Please confirm your password.");
@@ -99,14 +99,6 @@ public class UserRegistrationActivity extends AppCompatActivity {
         if (password != null) {
             Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
             Matcher matcher = pattern.matcher(password);
-            return matcher.matches();
-        }
-        return false;
-    }
-    private boolean validateEmail(String email) {
-        if (email != null) {
-            Pattern pattern = Pattern.compile(EMAIL_PATTERN);
-            Matcher matcher = pattern.matcher(email);
             return matcher.matches();
         }
         return false;

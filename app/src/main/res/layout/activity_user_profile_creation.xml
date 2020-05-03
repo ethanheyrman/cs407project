@@ -8,28 +8,18 @@
     android:theme="@style/Theme.MaterialComponents.DayNight.DarkActionBar"
     tools:context=".UserProfileCreationActivity">
 
-    <ImageView
-        android:id="@+id/profile_image"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/img"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/desc_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:lines="2"
         android:text="Please, describe yourself a little\n so others know who you are."
         app:layout_constraintBottom_toTopOf="@+id/last_name_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/repr_text"
@@ -65,7 +55,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/last_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scrollHorizontally="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -78,6 +69,7 @@
         android:layout_marginRight="10dp"
         android:textColor="#000000"
         android:textColorHint="#000000"
+        android:inputType="text"
         android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:visibility="visible"
         app:boxBackgroundColor="#FFFFFF"
@@ -93,9 +85,12 @@
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="text"
             android:enabled="false"
             android:lines="1"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:scrollHorizontally="true"
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -122,7 +117,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/phone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scrollHorizontally="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -137,6 +133,7 @@
         android:textColorHint="#000000"
         android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:boxBackgroundColor="#FFFFFF"
+        app:boxStrokeColor="#4E00E9"
         app:helperText="@string/first_name"
         app:helperTextEnabled="true"
         app:layout_constraintEnd_toStartOf="@+id/last_name_container"
@@ -146,7 +143,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/first_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scrollHorizontally="true"
+            android:textColor="#000000" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -199,6 +198,7 @@
         android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:visibility="invisible"
         app:boxBackgroundColor="#FFFFFF"
+        app:boxStrokeColor="#4E00E9"
         app:helperText="@string/org_name"
         app:helperTextEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/complete_profile_button"

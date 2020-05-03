@@ -31,7 +31,11 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ProfileActivity extends AppCompatActivity {
     public EditText firstName;
@@ -43,6 +47,8 @@ public class ProfileActivity extends AppCompatActivity {
     public ListView listView;
     public TextView activePosts;
     public SwitchMaterial editProfile;
+    public boolean editing = false;
+    public TextView welcome;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     DatabaseReference usersReference;
@@ -73,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
         organizationName = organizationNameContainer.findViewById(R.id.organization_name);
         listView = (ListView) findViewById(R.id.listView);
         activePosts = findViewById(R.id.active_posts);
-        editProfile = findViewById(R.id.edit_profile_button);
+        editProfile = findViewById(R.id.edit_profile_switch);
         // Persistent Layout References
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -96,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
                         activePosts.setTop(R.id.email_container);
                     }
                 }
+                //findViewById(R.id.welcome).setText("Hello, " + firstName.getText().toString() + "!");
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -134,13 +141,38 @@ public class ProfileActivity extends AppCompatActivity {
 
         editProfile.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                firstName.setEnabled(!firstName.isEnabled());
+                lastName.setEnabled(!lastName.isEnabled());
+                organizationName.setEnabled(!organizationName.isEnabled());
+                if (validateForm()) {
+                        usersReference.child(currentUser.getUid()).child("firstName").setValue(firstName.getText().toString());
+                        usersReference.child(currentUser.getUid()).child("lastName").setValue(lastName.getText().toString());
+                        usersReference.child(currentUser.getUid()).child("organizationName").setValue(organizationName.getText().toString());
+                    }
+//                editing = !editing;
+
                 Log.i("TAG", String.valueOf(isChecked));
-                organizationName.getText().clear();
-                if (isChecked)
-                    organizationNameContainer.setVisibility(View.VISIBLE);
-                else organizationNameContainer.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    private Boolean validateForm() {
+        boolean error = false;
+        if (firstName.getText().toString().length() <= 0) {
+            firstName.setError("First name must be at least 1 character long.");
+            error = true;
+        }
+        if (lastName.getText().toString().length() <= 0) {
+            lastName.setError("Last name must be at least 1 character long.");
+            error = true;
+        }
+        if (organizationNameContainer.getVisibility() == View.VISIBLE) {
+            if (organizationName.getText().toString().length() <= 0) {
+                organizationName.setError("Organization name must be at least 1 character long.");
+                error = true;
+            }
+        }
+        return !error;
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
