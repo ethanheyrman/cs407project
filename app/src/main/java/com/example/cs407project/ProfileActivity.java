@@ -149,8 +149,6 @@ public class ProfileActivity extends AppCompatActivity {
                         usersReference.child(currentUser.getUid()).child("lastName").setValue(lastName.getText().toString());
                         usersReference.child(currentUser.getUid()).child("organizationName").setValue(organizationName.getText().toString());
                     }
-//                editing = !editing;
-
                 Log.i("TAG", String.valueOf(isChecked));
             }
         });

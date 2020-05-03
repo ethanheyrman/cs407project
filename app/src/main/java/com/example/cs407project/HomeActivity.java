@@ -202,7 +202,7 @@ public class HomeActivity extends AppCompatActivity {
                     foundPost.email = (String) data.child("email").getValue();
                     foundPost.organization = (String) data.child("organizationName").getValue();
                     foundPost.location = list.get(place);
-                    foundPost.phone = (String) Long.toString((Long) data.child("phone").getValue());
+                    foundPost.phone = (String) data.child("phone").getValue().toString().replace("-","");
                     all.add(foundPost);
                     if (all.size() == strings.size()) {
                         display();
@@ -245,7 +245,7 @@ public class HomeActivity extends AppCompatActivity {
                 String[] entries = curr.PPEList;
                 for (int i = 0; i < entries.length; i++) {
                     if (!entries[i].equals("0")) {
-                        if (entries[i].equals("1")) {
+                        if (entries[i].equals("1") || PPETypes[i].endsWith("s")) {
                             post = post + entries[i] + " " + PPETypes[i] + "\n";
                         } else {
                             post = post + entries[i] + " " + PPETypes[i] + "s\n";

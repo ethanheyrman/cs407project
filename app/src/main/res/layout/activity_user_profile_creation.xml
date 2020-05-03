@@ -105,6 +105,8 @@
         android:textColorHint="#000000"
         android:theme="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:visibility="visible"
+        android:inputType="phone"
+        android:digits="0123456789+"
         app:boxBackgroundColor="#FFFFFF"
         app:boxStrokeColor="#4E00E9"
         app:boxStrokeWidth="2dp"
@@ -118,6 +120,8 @@
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="phone"
+            android:digits="0123456789+"
             android:scrollHorizontally="true" />
     </com.google.android.material.textfield.TextInputLayout>
 

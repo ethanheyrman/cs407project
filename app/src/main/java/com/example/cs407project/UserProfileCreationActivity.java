@@ -99,7 +99,6 @@ public class UserProfileCreationActivity extends AppCompatActivity {
             String exchangeCode = phoneNum.substring(3, 6);
             String liveNumber = phoneNum.substring(6);
             phoneNum = areaCode + '-' + exchangeCode + '-' + liveNumber;
-            Log.i("PHONE", phoneNum);
         }
         Pattern pattern = Pattern.compile(PHONE_PATTERN);
         Matcher matcher = pattern.matcher(phoneNum);
