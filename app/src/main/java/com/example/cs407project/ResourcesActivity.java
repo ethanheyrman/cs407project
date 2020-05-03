@@ -53,10 +53,6 @@ public class ResourcesActivity extends AppCompatActivity {
                         Intent addIntent = new Intent(ResourcesActivity.this, AddActivity.class);
                         startActivity(addIntent);
                         return true;
-                    case R.id.action_search:
-                        Intent settingsIntent = new Intent(ResourcesActivity.this, SearchActivity.class);
-                        startActivity(settingsIntent);
-                        return true;
                     default:
                         return false;
                 }

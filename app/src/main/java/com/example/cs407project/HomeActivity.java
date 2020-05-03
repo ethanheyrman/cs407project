@@ -4,14 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
@@ -23,11 +26,11 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -51,20 +54,26 @@ public class HomeActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 12;
     GeoLocation geoLocation;
     GeoFire geoFire;
-    DatabaseReference geolocations;
+    DatabaseReference offerGeolocations;
+    DatabaseReference requestGeolocations;
     ArrayList<GeoLocation> list;
     ArrayList<String> strings;
     ArrayList<PostWithInfo> all;
     FirebaseAuth mAuth;
+    Button requestButton;
+    Button offerButton;
     final String[] PPETypes = {"Cloth mask", "Surgical Mask", "Disposable Respirator", "Half Mask",
             "Full Mask", "Mask Filters", "Goggles", "Face Shield", "Surgical Gown"};
     SupportMapFragment mapFragment;
 
+    int offersOrRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        requestButton = findViewById(R.id.requestsButton);
+        offerButton = findViewById(R.id.offersButton);
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -73,13 +82,15 @@ public class HomeActivity extends AppCompatActivity {
 
         FirebaseApp.initializeApp(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        geolocations = FirebaseDatabase.getInstance().getReference("geofireoffers");
-        geoFire = new GeoFire(geolocations);
+        offerGeolocations = FirebaseDatabase.getInstance().getReference("geofireoffers");
+        requestGeolocations = FirebaseDatabase.getInstance().getReference("geofirerequests");
+        geoFire = new GeoFire(offerGeolocations);
         list = new ArrayList<GeoLocation>();
         strings = new ArrayList<String>();
         all = new ArrayList<PostWithInfo>();
         mAuth = FirebaseAuth.getInstance();
-        handleLocation();
+        offersOrRequests = 0;
+        handleLocation(offersOrRequests);
 
     }
 
@@ -104,7 +115,7 @@ public class HomeActivity extends AppCompatActivity {
         mFusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
-    private void handleLocation() {
+    private void handleLocation(int isoffersOrRequest) {
         int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION);
 
@@ -116,12 +127,19 @@ public class HomeActivity extends AppCompatActivity {
             mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(this, task -> {
                 Location mLastKnownLocation = task.getResult();
                 if (task.isSuccessful() && mLastKnownLocation != null) {
-
                     geoLocation = new GeoLocation(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude());
+                    all.clear();
+                    strings.clear();
+                    list.clear();
+                    if (isoffersOrRequest == 0) {
+                        geoFire = new GeoFire(requestGeolocations);
+                    } else {
+                        geoFire = new GeoFire(offerGeolocations);
+                    }
                     getNearby();
                 } else if (mLastKnownLocation == null) {
                     getLocation();
-                    handleLocation();
+                    handleLocation(offersOrRequests);
                 }
             });
         }
@@ -133,9 +151,10 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
                 if (strings.size() < 20) {
-                    if (!key.equals(mAuth.getUid()))
+                    if (!(key.equals(mAuth.getUid() + "request")) && !(key.equals(mAuth.getUid() + "offer"))) {
                         strings.add(key);
-                    list.add(location);
+                        list.add(location);
+                    }
                 }
             }
 
@@ -200,22 +219,61 @@ public class HomeActivity extends AppCompatActivity {
     public void display() {
         mapFragment.getMapAsync(googleMap -> {
             mMap = googleMap;
-            //code to display marker
-            for (int i = 0; i < all.size(); i++)
+            mMap.clear();
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(geoLocation.latitude, geoLocation.longitude), 11));
+            for (int i = 0; i < all.size(); i++) {
+                PostWithInfo curr = all.get(i);
+                String postTitle = curr.name;
+                if (curr.organization != null) {
+                    postTitle = postTitle + " from " + curr.organization;
+                }
+                if (offersOrRequests == 0) {
+                    postTitle = postTitle + "'s request";
+                } else {
+                    postTitle = postTitle + "'s offer";
+                }
+
                 googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(all.get(i).location.latitude, all.get(i).location.longitude))
-                        .title("Destination"))
-                        .setTag(all.get(i));
+                        .position(new LatLng(curr.location.latitude, curr.location.longitude))
+                        .title(postTitle))
+                        .setTag(curr);
+            }
 
             GoogleMap.OnMarkerClickListener mapClickListener = marker -> {
+                PostWithInfo curr = (PostWithInfo) marker.getTag();
+                String post = "";
+                String[] entries = curr.PPEList;
+                for (int i = 0; i < entries.length; i++) {
+                    if (!entries[i].equals("0")) {
+                        if (entries[i].equals("1")) {
+                            post = post + entries[i] + " " + PPETypes[i] + "\n";
+                        } else {
+                            post = post + entries[i] + " " + PPETypes[i] + "s\n";
+                        }
+                    }
+                }
+
+                String phone = curr.phone;
+                String phoneMessage;
+                if (offersOrRequests == 0) {
+                    phoneMessage = "Hello! I would like to offer PPE";
+                } else {
+                    phoneMessage = "Hello, I would like to request PPE";
+                }
+
                 MaterialAlertDialogBuilder selectionWindow = new MaterialAlertDialogBuilder(this)
-                        .setTitle((String) ((PostWithInfo)marker.getTag()).name)
-                        .setMessage("Test Info")
-                        .setNegativeButton("CANCEL", (dialog, which) -> dialog.dismiss())
-                        .setPositiveButton("MESSAGE", (dialog, which) -> {
+                        .setTitle(marker.getTitle())
+                        .setMessage(post)
+                        .setNeutralButton("CLOSE", (dialog, which) -> dialog.dismiss())
+                        .setNegativeButton("EMAIL", (dialog, which) -> {
                             Intent messagingIntent = new Intent(Intent.ACTION_SENDTO);
-                            messagingIntent.setData(Uri.parse("smsto:" + Uri.encode("18002221111")));
-                            messagingIntent.putExtra("sms_body", "Hello! I would like to provide/request PPE");
+                            messagingIntent.setData(Uri.parse("mailto:" + Uri.encode(curr.email)));
+                            startActivity(messagingIntent);
+                        })
+                        .setPositiveButton("PHONE", (dialog, which) -> {
+                            Intent messagingIntent = new Intent(Intent.ACTION_SENDTO);
+                            messagingIntent.setData(Uri.parse("smsto:" + Uri.encode(phone)));
+                            messagingIntent.putExtra("sms_body", phoneMessage);
                             startActivity(messagingIntent);
                         });
                 selectionWindow.show();
@@ -223,7 +281,20 @@ public class HomeActivity extends AppCompatActivity {
             };
             mMap.setOnMarkerClickListener(mapClickListener);
         });
+    }
 
+    public void showRequests(View view) {
+        requestButton.setBackgroundColor(Color.parseColor("#ff99cc00"));
+        offerButton.setBackgroundColor(Color.parseColor("#ffaaaaaa"));
+        handleLocation(0);
+        offersOrRequests = 0;
+    }
+
+    public void showOffers(View view) {
+        offerButton.setBackgroundColor(Color.parseColor("#ff99cc00"));
+        requestButton.setBackgroundColor(Color.parseColor("#ffaaaaaa"));
+        handleLocation(1);
+        offersOrRequests = 1;
     }
 
     @Override
@@ -232,12 +303,12 @@ public class HomeActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                handleLocation();
+                handleLocation(offersOrRequests);
             }
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 Toast.makeText(this, "Your location is needed to send requests and offers", Toast.LENGTH_LONG).show();
                 new Handler().postDelayed(() -> {
-                    handleLocation();
+                    handleLocation(offersOrRequests);
                 }, 3500);
             }
         }
@@ -287,41 +358,8 @@ public class HomeActivity extends AppCompatActivity {
                         Intent addIntent = new Intent(HomeActivity.this, AddActivity.class);
                         startActivity(addIntent);
                         return true;
-                    case R.id.action_search:
-                        Intent settingsIntent = new Intent(HomeActivity.this, Search.class);
-                        startActivity(settingsIntent);
-                        return true;
                     default:
                         return false;
                 }
             };
-
-    /*
-    private void displayMyLocation() {
-        //Check if permission granted
-        int permission = ActivityCompat.checkSelfPermission(this.getApplicationContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        //If not, ask for it
-        if (permission == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-        }
-        //If permission granted, display marker at current location
-        else {
-            mFusedLocationProviderClient.getLastLocation()
-                    .addOnCompleteListener(this, task -> {
-                        Location mLastKnownLocation = task.getResult();
-                        if (task.isSuccessful() && mLastKnownLocation != null) {
-                            System.out.println("This is the last known location: " + mLastKnownLocation);
-                            mMap.addPolyline(new PolylineOptions()
-                                    .add(new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), mDestinationLatLng));
-                        }
-                    });
-        }
-    }
-    */
-
-
 }
