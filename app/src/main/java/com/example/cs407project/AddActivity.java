@@ -8,7 +8,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -112,10 +111,6 @@ public class AddActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
             item -> {
                 switch (item.getItemId()) {
-                    case R.id.action_search:
-                        Intent searchIntent = new Intent(AddActivity.this, Search.class);
-                        startActivity(searchIntent);
-                        return true;
                     case R.id.action_profile:
                         Intent profileIntent = new Intent(AddActivity.this, ProfileActivity.class);
                         startActivity(profileIntent);
