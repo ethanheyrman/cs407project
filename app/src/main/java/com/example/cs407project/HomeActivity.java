@@ -224,7 +224,7 @@ public class HomeActivity extends AppCompatActivity {
             for (int i = 0; i < all.size(); i++) {
                 PostWithInfo curr = all.get(i);
                 String postTitle = curr.name;
-                if (curr.organization != null) {
+                if (curr.organization != null && !curr.organization.isEmpty()) {
                     postTitle = postTitle + " from " + curr.organization;
                 }
                 if (offersOrRequests == 0) {
