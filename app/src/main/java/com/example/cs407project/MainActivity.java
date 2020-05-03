@@ -78,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
         String password = passwordField.getText().toString();
 
         if (email.isEmpty()) {
-            Toast.makeText(MainActivity.this, "Enter your email.",
+            Toast.makeText(MainActivity.this, "Enter a valid email.",
                     Toast.LENGTH_SHORT).show();
             return;
         }
         if (password.isEmpty()) {
-            Toast.makeText(MainActivity.this, "Enter your password.",
+            Toast.makeText(MainActivity.this, "Invalid password.",
                     Toast.LENGTH_SHORT).show();
             return;
         }

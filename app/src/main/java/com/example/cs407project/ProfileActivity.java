@@ -11,11 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.cs407project.models.ProfilePPEPost;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
     public EditText firstName;
@@ -38,18 +42,18 @@ public class ProfileActivity extends AppCompatActivity {
     public View organizationNameContainer;
     public ListView listView;
     public TextView activePosts;
+    public SwitchMaterial editProfile;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     DatabaseReference usersReference;
     DatabaseReference postsReference;
 
-    ArrayList<String> displayPosts;
+    ArrayList<ProfilePPEPost> displayPosts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
 
         final Context context = getApplicationContext();
         // Firebase Realtime Database and Auth references
@@ -58,7 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
         usersReference = FirebaseDatabase.getInstance().getReference().child("users");
         postsReference = FirebaseDatabase.getInstance().getReference().child("posts");
         Query userQuery = usersReference.orderByChild("uuid").equalTo(currentUser.getUid());
-        Query postsQuery = postsReference.orderByChild("authorUUID").equalTo(currentUser.getUid());
+        Query postQuery = postsReference.orderByKey().startAt(currentUser.getUid());
 
         // Profile Layout References
         firstName = findViewById(R.id.first_name_container).findViewById(R.id.first_name);
@@ -69,12 +73,12 @@ public class ProfileActivity extends AppCompatActivity {
         organizationName = organizationNameContainer.findViewById(R.id.organization_name);
         listView = (ListView) findViewById(R.id.listView);
         activePosts = findViewById(R.id.active_posts);
-//        listView.setEmptyView((TextView) findViewById(R.id.listView).findViewById(R.id.emptyElement));
+        editProfile = findViewById(R.id.edit_profile_button);
         // Persistent Layout References
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        displayPosts = new ArrayList<String>();
+        displayPosts = new ArrayList<>();
         userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -89,7 +93,6 @@ public class ProfileActivity extends AppCompatActivity {
                     if (isOrganization) {
                         organizationNameContainer.setVisibility(View.VISIBLE);
                         organizationName.setText((String) data.child("organizationName").getValue());
-
                         activePosts.setTop(R.id.email_container);
                     }
                 }
@@ -99,33 +102,43 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        postsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        postQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot data: dataSnapshot.getChildren()) {
-                    String id = (String) data.child("id").getValue();
-                    String type = (String) data.child("type").getValue();
-                    java.util.HashMap<String, String> ppeList = (java.util.HashMap<String, String>) data.child("PPEList").getValue();
-                    String lat = (String) data.child("lat").getValue();
-                    String lon = (String) data.child("lon").getValue();
-                    Log.i("data snapshot size", id);
-                    displayPosts.add(String.format("id: %s\nlat: %s lon: %s", id, lat, lon));
-
+                    if (activePosts.getVisibility() == View.INVISIBLE) activePosts.setVisibility(View.VISIBLE);
+                    String type = "";
+                    if (Objects.requireNonNull(data.getKey()).endsWith("request"))
+                        type = "Request";
+                    else if (Objects.requireNonNull(data.getKey()).endsWith("offer")) {
+                        Log.i("TAG", data.getKey());
+                        type = "Offer";
+                    }
+                    ArrayList ppe = (ArrayList) data.child("info").getValue();
+                    displayPosts.add(new ProfilePPEPost(data.getKey(), type, ppe));
                 }
-                ArrayAdapter adapter = new ArrayAdapter(context, R.layout.list_item_layout, displayPosts);
+                ProfilePPEAdapter adapter = new ProfilePPEAdapter(context, displayPosts);
                 listView.setAdapter(adapter);
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
         });
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        editProfile.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.i("TAG", String.valueOf(isChecked));
+                organizationName.getText().clear();
+                if (isChecked)
+                    organizationNameContainer.setVisibility(View.VISIBLE);
+                else organizationNameContainer.setVisibility(View.INVISIBLE);
             }
         });
     }
