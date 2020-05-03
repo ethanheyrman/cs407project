@@ -93,13 +93,15 @@ public class UserProfileCreationActivity extends AppCompatActivity {
     private Boolean validateForm() {
         boolean error = false;
         String phoneNum = phone.getText().toString();
-        if (phoneNum.length() == 10) phoneNum = phoneNum.substring(1);  // country code was included
-        if (phoneNum.length() == 9) {  // attempt to add hyphens for validation
+        if (phoneNum.length() == 11) phoneNum = phoneNum.substring(1);  // country code was included
+        if (phoneNum.length() == 10) {  // attempt to add hyphens for validation
             String areaCode = phoneNum.substring(0, 3);
             String exchangeCode = phoneNum.substring(3, 6);
             String liveNumber = phoneNum.substring(6);
             phoneNum = areaCode + '-' + exchangeCode + '-' + liveNumber;
+            phone.setText(phoneNum);
         }
+
         Pattern pattern = Pattern.compile(PHONE_PATTERN);
         Matcher matcher = pattern.matcher(phoneNum);
         if (!matcher.matches()) {

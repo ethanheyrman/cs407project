@@ -93,7 +93,14 @@ public class ProfileActivity extends AppCompatActivity {
                     firstName.setText((String) data.child("firstName").getValue());
                     lastName.setText((String) data.child("lastName").getValue());
                     email.setText((String) data.child("email").getValue());
-                    phone.setText((String) data.child("phone").getValue());
+                    String phoneNum = (String) data.child("phone").getValue();
+                    if (phoneNum != null && phoneNum.length() == 10) {
+                        String areaCode = phoneNum.substring(0, 3);
+                        String exchangeCode = phoneNum.substring(3, 6);
+                        String liveNumber = phoneNum.substring(6);
+                        phoneNum = areaCode + '-' + exchangeCode + '-' + liveNumber;
+                    }
+                    phone.setText(phoneNum);
                     Boolean isOrganization = (Boolean) data.child("isOrganization").getValue();
 
                     if (isOrganization) {
