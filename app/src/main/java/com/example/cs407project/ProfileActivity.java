@@ -178,10 +178,6 @@ public class ProfileActivity extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener =
             item -> {
             switch (item.getItemId()) {
-                case R.id.action_search:
-                    Intent searchIntent = new Intent(ProfileActivity.this, SearchActivity.class);
-                    startActivity(searchIntent);
-                    return true;
                 case R.id.action_profile:
                     Intent profileIntent = new Intent(ProfileActivity.this, ProfileActivity.class);
                     startActivity(profileIntent);
